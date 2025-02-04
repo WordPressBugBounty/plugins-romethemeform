@@ -1,10 +1,10 @@
 === RomethemeForm For Elementor ===
 Contributors: dickoandrean
 Tags: addons, widget, elementor, form ,form builder , extension
-Requires at least: 6.2
-Tested up to: 6.4.3
-Requires PHP: 7.0
-Stable tag: 1.2.0
+Requires at least: 6.6
+Tested up to: 6.7.1
+Requires PHP: 7.4
+Stable tag: 1.2.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -51,6 +51,10 @@ Elementor widgets fields to build your form :
 Login your WordPress dashboard,  From the left menu click the RomethemeForm icon.
 
 == Changelog ==
+Version 1.2.1
+* Update Phone Widget
+* Update Entry Title
+
 Version 1.2.0
 * New: Improve the user experience by updating the visual interface.
 

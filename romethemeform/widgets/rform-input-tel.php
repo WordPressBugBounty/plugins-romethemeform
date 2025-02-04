@@ -38,7 +38,8 @@ class RForm_Phone extends \Elementor\Widget_Base
         return ['rtform-text-style'];
     }
 
-    private function countries() {
+    private function countries()
+    {
         $countries = [
             "AF" => "Afghanistan",
             "AL" => "Albania",
@@ -358,11 +359,11 @@ class RForm_Phone extends \Elementor\Widget_Base
             'tab' => \Elementor\Controls_Manager::TAB_CONTENT
         ]);
 
-        $this->add_control('default_countries' , [
+        $this->add_control('default_countries', [
             'label' => esc_html('Default Country'),
             'type' => \Elementor\Controls_Manager::SELECT,
             'options' => $this->countries(),
-            'default' => 'ID' 
+            'default' => 'ID'
         ]);
 
 
@@ -695,37 +696,108 @@ class RForm_Phone extends \Elementor\Widget_Base
         ]);
 
         $this->add_group_control(
-			\Elementor\Group_Control_Background::get_type(),
-			[
-				'name' => 'background_flag',
-				'types' => [ 'classic', 'gradient' ],
-				'selector' => '{{WRAPPER}} .iti--separate-dial-code .iti__selected-flag',
-			]
-		);
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'background_flag',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .iti--separate-dial-code .iti__selected-flag',
+            ]
+        );
 
         $this->add_responsive_control(
-			'margin_flag',
-			[
-				'label' => esc_html__( 'Margin', 'romethemeform' ),
-				'type' => \Elementor\Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
-				'selectors' => [
-					'{{WRAPPER}} .iti--separate-dial-code .iti__selected-flag' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
-		);
+            'margin_flag',
+            [
+                'label' => esc_html__('Margin', 'romethemeform'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem', 'custom'],
+                'selectors' => [
+                    '{{WRAPPER}} .iti--separate-dial-code .iti__selected-flag' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
 
         $this->add_responsive_control(
-			'border_radius_flag',
-			[
-				'label' => esc_html__( 'Border Radius', 'romethemeform' ),
-				'type' => \Elementor\Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
-				'selectors' => [
-					'{{WRAPPER}} .iti--separate-dial-code .iti__selected-flag' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
-		);
+            'border_radius_flag',
+            [
+                'label' => esc_html__('Border Radius', 'romethemeform'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem', 'custom'],
+                'selectors' => [
+                    '{{WRAPPER}} .iti--separate-dial-code .iti__selected-flag' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'country_options',
+            [
+                'label' => esc_html__('Country List', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->start_controls_tabs('country_list_tabs');
+
+        $this->start_controls_tab('country_list_normal', ['label' => esc_html('Normal')]);
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'background_country_list',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .iti__country-list li:not(.iti__divider)',
+            ]
+        );
+
+        $this->add_control('country_list_color', [
+            'label' => esc_html('Text Color'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .iti__country-list .iti__country-name' => 'color : {{VALUE}}'
+            ]
+        ]);
+
+        $this->add_control('country_list_dialcode_color', [
+            'label' => esc_html('Dial Code Color'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .iti__country-list .iti__dial-code' => 'color : {{VALUE}}'
+            ]
+        ]);
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab('country_list_hover', ['label' => esc_html('Hover')]);
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'background_country_list_hover',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .iti__country-list li:not(.iti__divider):hover',
+            ]
+        );
+
+        $this->add_control('country_list_color_hover', [
+            'label' => esc_html('Text Color'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .iti__country-list li:hover .iti__country-name' => 'color : {{VALUE}}'
+            ]
+        ]);
+
+        $this->add_control('country_list_dialcode_color_hover', [
+            'label' => esc_html('Dial Code Color'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .iti__country-list li:hover .iti__dial-code' => 'color : {{VALUE}}'
+            ]
+        ]);
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
 
         $this->end_controls_section();
 

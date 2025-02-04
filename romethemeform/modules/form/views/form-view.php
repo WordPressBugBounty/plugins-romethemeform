@@ -1,7 +1,17 @@
 <?php
 require_once \RomeThemeForm::module_dir() . 'form/form.php';
-$index = 0;
-$rtform = new WP_Query(['post_type' => 'romethemeform_form']);
+
+$paged = (isset($_GET['paged'])) ? $_GET['paged'] : 1;
+$postPerPage = absint(get_option('posts_per_page'));
+
+$index = ($postPerPage * $paged ) - $postPerPage ;
+
+$arg = [
+    'post_type' => 'romethemeform_form',
+    'posts_per_page' => get_option('posts_per_page'),
+    'paged' => $paged
+];
+$rtform = new WP_Query($arg);
 
 ?>
 
@@ -86,20 +96,44 @@ $rtform = new WP_Query(['post_type' => 'romethemeform_form']);
         </div>
     </div>
 <?php else: ?>
-    <div class="d-flex flex-row justify-content-between align-items-center mb-4">
-        <div>
-            <div class="d-flex flex-row justify-content-between align-items-center mb-4">
-                <div>
-                    <button class="btn btn-gradient-accent rounded-pill d-flex align-items-center gap-3" data-bs-toggle="modal" data-bs-target="#formModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                        </svg>
-                        Create New Template</button>
-                </div>
+    <div class="d-flex flex-row align-items-center mb-4">
+
+        <div class="d-flex flex-row w-100 justify-content-between align-items-center mb-4">
+            <div>
+                <button class="btn btn-gradient-accent rounded-pill d-flex align-items-center gap-3" data-bs-toggle="modal" data-bs-target="#formModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                    Create New Template</button>
+            </div>
+            <div class="d-flex justify-content-end align-items-end h-100 gap-1 mb-3">
+                <?php
+                $total_pages = $rtform->max_num_pages;
+                $current_url = add_query_arg(array()); // get the current URL
+                $base_url = remove_query_arg('paged', $current_url);
+                if ($total_pages > 1) {
+                    $current_page = max(1, intval(sanitize_text_field($paged)));
+                    echo '<div class="themebuilder-pagination">';
+                    echo paginate_links(array(
+                        'base' => $base_url . '&paged=%#%',
+                        'format' => '&paged=%#%',
+                        'current' => $current_page,
+                        'total' => $total_pages,
+                        'prev_text' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                 <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+               </svg>',
+                        'next_text' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                 <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+               </svg>',
+                    ));
+                    echo '</div>';
+                }
+                ?>
             </div>
         </div>
     </div>
+
     <div class="rounded-3 rtm-border px-3 bg-gradient-1">
         <table class="rtm-table table-themebuilder">
             <thead>
@@ -143,11 +177,11 @@ $rtform = new WP_Query(['post_type' => 'romethemeform_form']);
                         Edit</a>&nbsp;|&nbsp; <a class="link" href="' . esc_url($edit_elementor) . '">Edit Form</a> &nbsp;|&nbsp;<a class="link-danger" href="' . esc_url($delete) . '">Trash</a></small>';
                         echo '</td>';
                         echo '<td>' . esc_html($shortcode) . '</td>';
-                        echo '<td>
+                        echo '<td><div class="d-flex flex-row gap-2">
                         <a class="btn btn-outline-primary" href="' . esc_url(admin_url("admin.php?page=romethemeform-entries&rform_id=" . $id_post)) . '" type="button" 
                         >' . esc_html($entries) . '</a>
                         <a type="button" class="btn btn-outline-success" onclick="' . esc_attr($f) . '">Export CSV</a>
-                        </td>';
+                        </div></td>';
                         echo '<td>' . esc_html(get_the_author()) . '</td>';
                         echo '<td><small>' . esc_html($status) . '</small><br><small>' . esc_html(get_the_date('Y/m/d') . ' at ' . get_the_date('H:i a')) . '</small></td>';
                         echo '</tr>';
@@ -199,6 +233,7 @@ $rtform = new WP_Query(['post_type' => 'romethemeform_form']);
                             <div class="mb-3">
                                 <label for="entry-name" class="form-label">Entry Title</label>
                                 <input type="text" class="form-control p-2" id="entry-name" name="entry-name" value="Entry #">
+                                <p class="fw-light fst-italic text">To set a custom entry title, enclose the input name in {{ }}.</p>
                             </div>
                             <div class="d-flex flex-row justify-content-between align-items-center mb-3">
                                 <span>
@@ -322,6 +357,7 @@ $rtform = new WP_Query(['post_type' => 'romethemeform_form']);
                             <div class="mb-3">
                                 <label for="entry-name" class="form-label">Entry Title</label>
                                 <input type="text" class="form-control p-2" id="entry-name" name="entry-name" value="Entry #">
+                                <p class="fw-light fst-italic text">To set a custom entry title, enclose the input name in {{ }}.</p>
                             </div>
                             <div class="d-flex flex-row justify-content-between align-items-center mb-3">
                                 <span>

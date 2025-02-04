@@ -73,7 +73,7 @@ class Form
                     'rest_url' => rest_url('wp/v2/romethemeform_form/'),
                     'nonce' => $form_nonce
                 ));
-                wp_localize_script('rform-js', 'romethemeform_url', ['form_url' =>  admin_url() . 'admin.php?page=themebuilder']);
+                wp_localize_script('rform-js', 'romethemeform_url', ['form_url' =>  admin_url() . 'admin.php?page=themebuilder&themebuilder=form']);
             }
         }
     }
@@ -401,10 +401,30 @@ class Form
         add_post_meta($entri_id, 'rform-entri-form-id', $form_id);
         add_post_meta($entri_id, 'rform-entri-referal', json_encode($current_page));
         // add_post_meta($entri_id, 'rform-entri-submit-page', $urlPage);
-        $arg = [
-            'ID' => $entri_id,
-            'post_title' => $entri_title . ' ' . $entri_id,
-        ];
+
+        if (preg_match('/{{(.*?)}}/', $entri_title) === 1) {
+            $newTitle = preg_replace_callback(
+                '/{{(.*?)}}/',
+                function ($match) use ($entri_id) {
+                    $dataMeta = get_post_meta($entri_id , 'rform-entri-data' , true );
+                    $datajson = json_decode($dataMeta , true);
+                    return $datajson[$match[1]];
+                },
+                $entri_title
+            );
+
+            $arg = [
+                'ID' => $entri_id,
+                'post_title' => $newTitle,
+            ];
+        } else {
+            $arg = [
+                'ID' => $entri_id,
+                'post_title' => $entri_title . ' ' . $entri_id,
+            ];
+        }
+
+
         wp_update_post($arg);
 
         if ($notif) {

@@ -157,7 +157,7 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
                 'type' => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em', 'custom'],
                 'selectors' => [
-                    '{{WRAPPER}} .rform-button-submit , .loading' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .rform-button-submit , {{WRAPPER}} .loading' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -230,7 +230,7 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
             [
                 'name' => 'btn_background_normal',
                 'types' => ['classic', 'gradient'],
-                'selector' => '{{WRAPPER}} .rform-button-submit , .loading',
+                'selector' => '{{WRAPPER}} .rform-button-submit , {{WRAPPER}} .loading',
             ]
         );
         $this->end_controls_tab();
@@ -285,7 +285,7 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
             [
                 'name' => 'btn_background_hover',
                 'types' => ['classic', 'gradient'],
-                'selector' => '{{WRAPPER}} .rform-button-submit:hover , .loading:hover',
+                'selector' => '{{WRAPPER}} .rform-button-submit:hover , {{WRAPPER}} .loading:hover',
             ]
         );
         $this->end_controls_tab();

@@ -16,7 +16,7 @@ class RTForm_Number extends \Elementor\Widget_Base
     }
     public function get_icon()
     {
-        return 'rform-widget-icon rtmicon rtmicon-number-form';
+        return 'rform-widget-icon rtmicon rtmicon-number';
     }
 
     public function show_in_panel()

@@ -16,6 +16,9 @@ jQuery(document).ready(($) => {
     });
 
     $(document).on('click', '#rform-editform-button', function () {
+        $(this).html('SAVING...');
+        $(this).attr('disabled' , true);
+        let $this = $(this);
         var uid = $(this).data('control-uid');
         var modal = $("#myModal" + uid);
         var iframe = window.parent.document.getElementById("ifr-" + uid);
@@ -31,6 +34,8 @@ jQuery(document).ready(($) => {
                 modal.hide();
                 currentSelectedWidget.renderOnChange();
                 iframe.src = '';
+                $this.html('SAVE & CLOSE');
+                $this.removeAttr('disabled');
             },
             onError: function () {
                 alert("Error saving Form");
