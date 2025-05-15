@@ -10,6 +10,7 @@
   .rform-checkbox-button{
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
   }
   
   /* Hide default radio button */

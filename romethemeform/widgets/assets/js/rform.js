@@ -1,5 +1,5 @@
 jQuery(document).ready(($) => {
-    $('.rform-button-submit').click(function (event) {
+    $('.rform-button-submit').on('click' , function (event) {
         event.preventDefault();
         var form = $(this).closest("form");
         var form_id = form.attr('data-form');
@@ -18,7 +18,7 @@ jQuery(document).ready(($) => {
                 }
 
             });
-            if (form.get(0).checkValidity()) {
+            if (form[0].checkValidity()) {
                 if (form.find("[aria-invalid= true]").length == 0) {
                     // console.log('Form Valid'); 
 

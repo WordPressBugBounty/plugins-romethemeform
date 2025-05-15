@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Plugin Name:       RomethemeForm
+ * Plugin Name:       RTMForm Builder for Elementor
  * Description:       The Advanced Form Builder for Elementor 
- * Version:           1.2.1
+ * Version:           1.2.2
  * Author:            Rometheme
  * Author URI: 	  	  https://rometheme.net/
  * License : 		  GPLv3
@@ -78,7 +78,7 @@ class RomeThemeForm
 
     static function rform_version()
     {
-        return '1.2.1';
+        return '1.2.2';
     }
 
 

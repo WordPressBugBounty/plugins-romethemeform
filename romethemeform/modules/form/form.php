@@ -66,7 +66,7 @@ class Form
                 wp_localize_script('rform-js', 'romethemeform_url', ['form_url' =>  admin_url() . 'admin.php?page=romethemeform-form']);
             }
         } else {
-            if ($screen->id === 'romethemekit_page_themebuilder') {
+            if ($screen->id === 'romethemekit_page_themebuilder' || str_contains($screen->id , 'rtmkit')) {
                 wp_enqueue_script('rform-js', $this->url . 'assets/js/form.js', ['jquery'], \RomeThemeForm::rform_version());
                 wp_localize_script('rform-js', 'romethemeform_ajax_url', array(
                     'ajax_url' => admin_url('admin-ajax.php'),

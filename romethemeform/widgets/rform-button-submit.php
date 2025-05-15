@@ -125,10 +125,14 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
             'label' => esc_html__('Icon Position', 'romethemeform'),
             'type' => \Elementor\Controls_Manager::SELECT,
             'options' => [
-                'before' => esc_html__('Before', 'romethemeform'),
-                'after' => esc_html__('After', 'romethemeform'),
+                'row' => esc_html__('Before', 'romethemeform'),
+                'row-reverse' => esc_html__('After', 'romethemeform'),
             ],
-            'default' => 'before',
+            'default' => 'row',
+            'selectors' => [
+                '{{WRAPPER}} .rform-button-submit' => 'flex-direction: {{VALUE}}'
+            ]
+
         ]);
 
         $this->end_controls_section();
@@ -296,13 +300,33 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
         $this->end_controls_section();
 
         $this->start_controls_section('icon_style', ['label' => esc_html__('Icon', 'romethemeform'), 'tab' => \Elementor\Controls_Manager::TAB_STYLE]);
-        $this->add_control('icon_color', [
-            'label' => esc_html__('Icon Color', 'romethemeform'),
-            'type' => \Elementor\Controls_Manager::COLOR,
-            'selectors' => [
-                '{{WRAPPER}} .rform-btn-icon' => 'color:{{VALUE}}'
+
+        $this->add_responsive_control(
+            'icon_spacing',
+            [
+                'label' => esc_html__('Icon Spacing', 'romethemeform'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', 'em', 'rem'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                    'em' => [
+                        'min' => 0,
+                        'max' => 50,
+                    ],
+                    'rem' => [
+                        'min' => 0,
+                        'max' => 50,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .rform-button-submit' => 'gap: {{SIZE}}{{UNIT}};',
+                ]
             ]
-        ]);
+        );
 
         $this->add_responsive_control(
             'icon_size',
@@ -326,15 +350,16 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .rform-btn-icon' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} i.rform-btn-icon' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} svg.rform-btn-icon' => 'width: {{SIZE}}{{UNIT}}; height : {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
 
         $this->add_responsive_control(
-            'padding_left',
+            'icon_padding',
             [
-                'label' => esc_html__('Padding Left', 'romethemeform'),
+                'label' => esc_html__('Padding', 'romethemeform'),
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => ['px', 'em', 'rem'],
                 'range' => [
@@ -353,72 +378,88 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .rform-btn-icon' => 'padding-left: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .rform-btn-icon-container' => 'padding: {{SIZE}}{{UNIT}};',
                 ],
-                'condition' => [
-                    'icon_position' => 'after'
-                ]
             ]
         );
 
-        $this->add_responsive_control(
-            'padding_right',
+        $this->add_control(
+            'icon_radius',
             [
-                'label' => esc_html__('Padding Right', 'romethemeform'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['px', 'em', 'rem'],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                    'em' => [
-                        'min' => 0,
-                        'max' => 50,
-                    ],
-                    'rem' => [
-                        'min' => 0,
-                        'max' => 50,
-                    ],
-                ],
+                'label' => esc_html__('Border Radius', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem', 'custom'],
                 'selectors' => [
-                    '{{WRAPPER}} .rform-btn-icon' => 'padding-right: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .rform-btn-icon-container' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
-                'condition' => [
-                    'icon_position' => 'before'
-                ]
             ]
         );
 
+        $this->start_controls_tabs('icon_tabs');
 
-        $this->add_responsive_control(
-            'vertical_align',
-            [
-                'label' => esc_html__('Vertical Align', 'romethemeform'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['px', 'em', 'rem'],
-                'range' => [
-                    'px' => [
-                        'min' => -20,
-                        'max' => 20,
-                        'step' => 1,
-                    ],
-                    'em' => [
-                        'min' => -5,
-                        'max' => 5,
-                    ],
-                    'rem' => [
-                        'min' => -5,
-                        'max' => 5,
-                    ],
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .rform-btn-icon' => 'transform: translateY({{SIZE}}{{UNIT}});',
-                    '{{WRAPPER}} .rform-btn-icon' => '-webkit-transform: translateY({{SIZE}}{{UNIT}});',
-                ],
+        $this->start_controls_tab('icon_tab_normal', ['label' => esc_html('Normal')]);
+
+        $this->add_control('icon_color', [
+            'label' => esc_html__('Icon Color', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} i.rform-btn-icon' => 'color:{{VALUE}}',
+                '{{WRAPPER}} svg.rform-btn-icon' => 'fill:{{VALUE}}'
             ]
-        );
+        ]);
+
+        $this->add_group_control(
+			\Elementor\Group_Control_Background::get_type(),
+			[
+				'name' => 'icon_background_normal',
+				'types' => [ 'classic', 'gradient'],
+				'selector' => '{{WRAPPER}} .rform-btn-icon-container',
+                'exclude' => ['image']
+			]
+		);
+
+        $this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'icon_border_normal',
+				'selector' => '{{WRAPPER}} .rform-btn-icon-container',
+			]
+		);
+
+        $this->end_controls_tab();
+
+         $this->start_controls_tab('icon_tab_hover', ['label' => esc_html('Hover')]);
+
+        $this->add_control('icon_color_hover', [
+            'label' => esc_html__('Icon Color', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .rform-button-submit:hover i.rform-btn-icon' => 'color:{{VALUE}}',
+                '{{WRAPPER}} .rform-button-submit:hover svg.rform-btn-icon' => 'fill:{{VALUE}}'
+            ]
+        ]);
+
+        $this->add_group_control(
+			\Elementor\Group_Control_Background::get_type(),
+			[
+				'name' => 'icon_background_hover',
+				'types' => [ 'classic', 'gradient' ],
+				'selector' => '{{WRAPPER}} .rform-button-submit:hover .rform-btn-icon-container',
+                'exclude' => ['image']
+			]
+		);
+
+         $this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'icon_border_hover',
+				'selector' => '{{WRAPPER}} .rform-button-submit:hover .rform-btn-icon-container',
+			]
+		);
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
 
         $this->end_controls_section();
     }
@@ -430,13 +471,12 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
 ?>
         <div class="rform-button-container">
             <button class="rform-button-submit <?php echo ($settings['btn_fullwidth'] === 'yes') ? 'rform-btn-fullwidth' : '' ?>" type="button" id="rform-button-submit">
-                <?php if ($settings['icon_position'] == 'before') :
+                <div class="rform-btn-icon-container">
+                    <?php
                     \Elementor\Icons_Manager::render_icon($settings['btn_icon'], ['aria-hidden' => 'true', 'class' => 'rform-btn-icon']);
-                endif; ?>
+                    ?>
+                </div>
                 <?php echo esc_html__($settings['button_text']); ?>
-                <?php if ($settings['icon_position'] == 'after') :
-                    \Elementor\Icons_Manager::render_icon($settings['btn_icon'], ['aria-hidden' => 'true', 'class' => 'rform-btn-icon']);
-                endif; ?>
                 <div class="loading">
                     <div id="loading"></div>
                 </div>

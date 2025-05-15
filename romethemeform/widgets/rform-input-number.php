@@ -513,7 +513,6 @@ class RTForm_Number extends \Elementor\Widget_Base
         $settings = $this->get_settings_for_display();
         $min_length = $settings['min_length'];
         $max_length = $settings['max_length'];
-        $validation_type = $settings['validation_type'];
         $label_text = $settings['label_text'];
 
 ?>
@@ -525,7 +524,7 @@ class RTForm_Number extends \Elementor\Widget_Base
                         <?php if ('yes' === $settings['required_input']) : ?><span> * </span><?php endif; ?>
                     </label>
                 <?php endif; ?>
-                <input name="<?php echo esc_attr($settings['name_input']) ?>" placeholder="<?php echo esc_attr($settings['placeholder_input']) ?>" class="rform-input-number" id="rform-input-number-<?php echo esc_attr($this->get_id_int()); ?>" type="number" onblur="validate_input( '<?php echo esc_js('rform-input-number-') ?>' , '<?php echo esc_js('rform-input-err-') ?>' ,'<?php echo esc_js($this->get_id_int()); ?>')" aria-invalid=false data-val="<?php echo esc_attr($validation_type) ?>" <?php if ($settings['max_length']) : ?> max="<?php echo esc_attr($max_length); ?>" <?php endif; ?> <?php if ($settings['min_length']) : ?> min="<?php echo esc_attr($min_length) ?>" <?php endif; ?> <?php echo ('yes' === $settings['required_input']) ? esc_attr('required') : '' ?>>
+                <input name="<?php echo esc_attr($settings['name_input']) ?>" placeholder="<?php echo esc_attr($settings['placeholder_input']) ?>" class="rform-input-number" id="rform-input-number-<?php echo esc_attr($this->get_id_int()); ?>" type="number" onblur="validate_input( '<?php echo esc_js('rform-input-number-') ?>' , '<?php echo esc_js('rform-input-err-') ?>' ,'<?php echo esc_js($this->get_id_int()); ?>')" aria-invalid=false <?php if ($settings['max_length']) : ?> max="<?php echo esc_attr($max_length); ?>" <?php endif; ?> <?php if ($settings['min_length']) : ?> min="<?php echo esc_attr($min_length) ?>" <?php endif; ?> <?php echo ('yes' === $settings['required_input']) ? esc_attr('required') : '' ?>>
             </div>
             <span role="alert" class="rform-error" id="rform-input-err-<?php echo $this->get_id_int(); ?>"><?php echo esc_html__($settings['warning_message'], 'romethemeform') ?></span>
             <div class="rform-help-text">

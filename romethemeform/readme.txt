@@ -1,24 +1,24 @@
-=== RomethemeForm For Elementor ===
+=== RTMForm Builder for Elementor ===
 Contributors: dickoandrean
 Tags: addons, widget, elementor, form ,form builder , extension
 Requires at least: 6.6
-Tested up to: 6.7.1
+Tested up to: 6.8.1
 Requires PHP: 7.4
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-RomethemeForm For Elementor Plugin is an Form Builder for Elementor, and Widget Ready to use.
+RTMForm For Elementor Plugin is an Form Builder for Elementor, and Widget Ready to use.
 
 == Description ==
-RomethemeForm is a Contact Form Builder for Elementor. It's easy, fast, and also safe to create any fancy contact form in just minutes. Collect information, make your content interactive, and generate more conversions.
+RTMForm is a Contact Form Builder for Elementor. It's easy, fast, and also safe to create any fancy contact form in just minutes. Collect information, make your content interactive, and generate more conversions.
 
 Features
 • Elementor Input Fields: Create Custom forms for all your needs with as many fields as you like.
 • Admin Notification Email: Notify admin after user submission is completed or any type of customer data is processed.
 • User Confirmation Email: A confirmation email can be sent when a user registers or enters their data to confirm their registration. 
 • Saved Entries in the Admin Panel: Save all the data that users give to fill up the form and display it in the admin panel.
-• Export Entries as CSV: Export multiple data from your RomethemeForm that the user enters in a single CSV file and downloads in a spreadsheet.
+• Export Entries as CSV: Export multiple data from your RTMForm that the user enters in a single CSV file and downloads in a spreadsheet.
 • Required Login to Submit the Form: This feature of the secure contact form, will show all the required fields to fill up the form by giving a simple red star icon and providing an error message if needed.
 
 Elementor widgets fields to build your form :
@@ -37,7 +37,7 @@ Elementor widgets fields to build your form :
 == Installation ==
 1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the \'Plugins\' screen in WordPress
-3. All Settings will be found in the Admin sidebar -> RomethemeForm 
+3. All Settings will be found in the Admin sidebar -> RTMForm 
 4. (Make your instructions match the desired user flow for activating and installing your plugin. Include any steps that might be needed for explanatory purposes)
 
 ==Screenshots==
@@ -46,11 +46,15 @@ Elementor widgets fields to build your form :
 
 == Frequently Asked Questions ==
 
-= How to use RomethemeForm for Elementor? =
+= How to use RTMForm for Elementor? =
 
-Login your WordPress dashboard,  From the left menu click the RomethemeForm icon.
+Login your WordPress dashboard,  From the left menu click the RTMForm icon.
 
 == Changelog ==
+Version 1.2.2
+* Fixed : Issue on Button can't click save & editing in the "Form" theme builder.
+* Improved : Added background and border controls for the icon in the "Submit Button" widget
+
 Version 1.2.1
 * Update Phone Widget
 * Update Entry Title
@@ -98,4 +102,4 @@ Version : 1.0.1
 * Add fullwidth style in submit button
 
 Version : 1.0.0 
-* Initial version of RomethemeForm for Elementor Plugin
+* Initial version of RTMForm for Elementor Plugin
