@@ -11,7 +11,7 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
 
     public function get_title()
     {
-        return 'RForm - Submit Button';
+        return 'Submit Button';
     }
 
     public function get_icon()
@@ -43,7 +43,7 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
         return ['rtform-text-style', 'spinner-style', 'rform-button-style'];
     }
 
-    protected function _register_controls()
+    protected function register_controls()
     {
         $this->start_controls_section(
             'section_button',
@@ -161,7 +161,7 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
                 'type' => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em', 'custom'],
                 'selectors' => [
-                    '{{WRAPPER}} .rform-button-submit , {{WRAPPER}} .loading' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .rform-button-submit ' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -234,13 +234,13 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
             [
                 'name' => 'btn_background_normal',
                 'types' => ['classic', 'gradient'],
-                'selector' => '{{WRAPPER}} .rform-button-submit , {{WRAPPER}} .loading',
+                'selector' => '{{WRAPPER}} .rform-button-submit ',
             ]
         );
         $this->end_controls_tab();
 
-
         $this->start_controls_tab('btn_tab_hover', ['label' => esc_html__('Hover', 'romethemeform')]);
+
         $this->add_control('btn_color_hover', [
             'label' => esc_html__('Text Color', 'romethemeform'),
             'type' => \Elementor\Controls_Manager::COLOR,
@@ -289,11 +289,64 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
             [
                 'name' => 'btn_background_hover',
                 'types' => ['classic', 'gradient'],
-                'selector' => '{{WRAPPER}} .rform-button-submit:hover , {{WRAPPER}} .loading:hover',
+                'selector' => '{{WRAPPER}} .rform-button-submit:hover ',
             ]
         );
         $this->end_controls_tab();
 
+        $this->start_controls_tab('btn_tab_disabled', ['label' => esc_html__('Disabled', 'romethemeform')]);
+
+        $this->add_control('btn_color_disabled', [
+            'label' => esc_html__('Text Color', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .rform-button-submit:disabled' => 'color:{{VALUE}}'
+            ]
+        ]);
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'box_shadow_disabled',
+                'selector' => '{{WRAPPER}} .rform-button-submit:disabled',
+            ]
+        );
+
+        $this->add_control(
+            'border_disabled_options',
+            [
+                'label' => esc_html__('Border', 'romethemeform'),
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'border_disabled',
+                'selector' => '{{WRAPPER}} .rform-button-submit:disabled',
+            ]
+        );
+        $this->add_control(
+            'bg_disabled_options',
+            [
+                'label' => esc_html__('Background', 'romethemeform'),
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'btn_background_disabled',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .rform-button-submit:disabled',
+            ]
+        );
+        $this->end_controls_tab();
 
         $this->end_controls_tabs();
 
@@ -409,26 +462,26 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
         ]);
 
         $this->add_group_control(
-			\Elementor\Group_Control_Background::get_type(),
-			[
-				'name' => 'icon_background_normal',
-				'types' => [ 'classic', 'gradient'],
-				'selector' => '{{WRAPPER}} .rform-btn-icon-container',
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'icon_background_normal',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .rform-btn-icon-container',
                 'exclude' => ['image']
-			]
-		);
+            ]
+        );
 
         $this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			[
-				'name' => 'icon_border_normal',
-				'selector' => '{{WRAPPER}} .rform-btn-icon-container',
-			]
-		);
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'icon_border_normal',
+                'selector' => '{{WRAPPER}} .rform-btn-icon-container',
+            ]
+        );
 
         $this->end_controls_tab();
 
-         $this->start_controls_tab('icon_tab_hover', ['label' => esc_html('Hover')]);
+        $this->start_controls_tab('icon_tab_hover', ['label' => esc_html('Hover')]);
 
         $this->add_control('icon_color_hover', [
             'label' => esc_html__('Icon Color', 'romethemeform'),
@@ -440,22 +493,22 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
         ]);
 
         $this->add_group_control(
-			\Elementor\Group_Control_Background::get_type(),
-			[
-				'name' => 'icon_background_hover',
-				'types' => [ 'classic', 'gradient' ],
-				'selector' => '{{WRAPPER}} .rform-button-submit:hover .rform-btn-icon-container',
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'icon_background_hover',
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .rform-button-submit:hover .rform-btn-icon-container',
                 'exclude' => ['image']
-			]
-		);
+            ]
+        );
 
-         $this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			[
-				'name' => 'icon_border_hover',
-				'selector' => '{{WRAPPER}} .rform-button-submit:hover .rform-btn-icon-container',
-			]
-		);
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'icon_border_hover',
+                'selector' => '{{WRAPPER}} .rform-button-submit:hover .rform-btn-icon-container',
+            ]
+        );
 
         $this->end_controls_tab();
 
@@ -477,9 +530,6 @@ class Rform_Button_Submit extends \Elementor\Widget_Base
                     ?>
                 </div>
                 <?php echo esc_html__($settings['button_text']); ?>
-                <div class="loading">
-                    <div id="loading"></div>
-                </div>
             </button>
         </div>
 

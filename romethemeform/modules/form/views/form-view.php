@@ -4,7 +4,7 @@ require_once \RomeThemeForm::module_dir() . 'form/form.php';
 $paged = (isset($_GET['paged'])) ? $_GET['paged'] : 1;
 $postPerPage = absint(get_option('posts_per_page'));
 
-$index = ($postPerPage * $paged ) - $postPerPage ;
+$index = ($postPerPage * $paged) - $postPerPage;
 
 $arg = [
     'post_type' => 'romethemeform_form',
@@ -310,8 +310,7 @@ $rtform = new WP_Query($arg);
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="close-btn" type="button" class="col btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button id="rform-save-button" type="button" class="col btn btn-gradient-accent rform-save-btn">Save & Edit</button>
+                    <button id="rform-save-button" type="button" class="w-50 btn btn-gradient-accent rform-save-btn">Save & Edit</button>
                 </div>
             </div>
         </form>
@@ -323,7 +322,7 @@ $rtform = new WP_Query($arg);
         <form class="w-100" id="rtform-update-form" method="post">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="updateLabel">Update Form</h1>
+                    <h1 class="modal-title fs-5 text-white" id="updateLabel">Update Form</h1>
                     <button type="button" class="btn btn-transparent text-white" data-bs-dismiss="modal" aria-label="Close">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
@@ -434,8 +433,7 @@ $rtform = new WP_Query($arg);
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="close-btn" type="button" class="col btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button id="rform-update-button" type="button" class="col btn btn-gradient-accent rform-save-btn">Save changes</button>
+                    <button id="rform-update-button" type="button" class="w-50 btn btn-gradient-accent rform-save-btn">Save changes</button>
                 </div>
             </div>
         </form>
@@ -445,14 +443,18 @@ $rtform = new WP_Query($arg);
 <div id="rform-editor-modal" class="rform-modal">
     <div class="rform-modal-content">
         <div class="elementor-editor-header-iframe">
-            <div class="rform-editor-header">
-                <svg width="30" height="30" id="eohpCl3PVjW1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 300 300" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
-                    <g transform="matrix(.11326 0 0-.113381-20.251951 319.628716)">
-                        <path d="M372,2749c-46-14-109-80-122-128-7-27-10-384-8-1148l3-1108l24-38c13-21,42-50,64-65l41-27h1131h1131l41,27c22,15,51,44,64,65l24,38v812v813l-383,382-382,383-798,2c-485,1-810-2-830-8Zm1500-932c211-120,337-197,335-206-2-14-262-170-285-170-7-1-102,50-212,113l-200,115-200-115c-110-63-204-114-209-114-21,0-292,163-288,174c6,19,691,407,707,400c8-3,167-92,352-197Zm-151-319c82-46,148-86,149-89c0-3-12-11-27-18-26-12-20-16,183-131c115-66,210-123,212-128c3-9-277-172-296-172-7,0-107,54-222,120l-210,120-208-120c-115-66-215-120-223-120-24,1-284,155-286,170-2,10,125,88,380,232c210,120,386,218,391,218s76-37,157-82Z" transform="matrix(1.00378 0 0 1.013853-5.68208-20.7254)" fill="#f0f0f1" />
+            <div class="rform-editor-header gap-2">
+                <svg id="esTFm6Uueg21" xmlns="http://www.w3.org/2000/svg" width="25" height="25" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 492.94 492.94" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" project-id="f39061fa0d7140c0b843c54bc4fc263e" export-id="8175fbc5b63142aeb21ae9d901b96505" cached="false">
+                    <g transform="matrix(1.59639 0 0 1.59639-132.842546-145.601744)">
+                        <rect width="82.32" height="82.32" rx="0" ry="0" transform="translate(123.22 294.99)" fill="#f7f7f7" stroke-width="0"></rect>
+                        <g>
+                            <polygon points="342.61,268.16 316.74,293.64 261.59,238.49 287.45,212.63 342.61,268.16" opacity="0.6" fill="#f7f7f7" stroke-width="0"></polygon>
+                            <polygon points="400.1,377.31 288.12,377.31 270.64,359.83 260.83,350.02 205.69,294.88 123.22,212.41 123.22,100.44 123.43,100.65 400.06,377.27 400.1,377.31" fill="#f7f7f7" stroke-width="0"></polygon>
+                        </g>
+                        <path d="M395.54,206.04c2.63,2.62,2.61,6.89-.03,9.49l-18.16,17.89-.21.21-34.52,34.53-11.88,11.33l3.92-3.74c4.36-4.16,4.45-11.1.18-15.37L197.92,123.48h114.16c.53,0,1.04.21,1.41.58l82.04,81.98h.01Z" fill="#f7f7f7" stroke-width="0"></path>
                     </g>
-                    <path d="M199.680417,24.709473v75.9h76.5l-76.5-75.9Z" transform="matrix(1.075983 0 0 1.177621-4.45472-23.399398)" fill="#a1a1a1" stroke="#3f5787" stroke-width="0.6" />
                 </svg>
-                <strong>ROMETHEMEFORM</strong>
+                <strong>RTMForm</strong>
             </div>
             <button id="rform-save-editor-btn" class="elementor-button elementor-button-success elementor-modal-iframe-btn-control"><?php echo esc_html__('SAVE & CLOSE', 'romethemeform') ?></button>
         </div>

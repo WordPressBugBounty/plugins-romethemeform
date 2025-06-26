@@ -8,7 +8,7 @@ class RTForm_Date extends \Elementor\Widget_Base
     }
     public function get_title()
     {
-        return 'RForm - Date';
+        return 'Date';
     }
     public function get_categories()
     {

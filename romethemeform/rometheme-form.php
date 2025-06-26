@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       RTMForm Builder for Elementor
  * Description:       The Advanced Form Builder for Elementor 
- * Version:           1.2.2
+ * Version:           1.2.3
  * Author:            Rometheme
  * Author URI: 	  	  https://rometheme.net/
  * License : 		  GPLv3

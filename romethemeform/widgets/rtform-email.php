@@ -8,7 +8,7 @@ class RTForm_Email extends \Elementor\Widget_Base
     }
     public function get_title()
     {
-        return 'RForm - Email';
+        return 'Email';
     }
     public function get_categories()
     {

@@ -8,7 +8,7 @@ class RTForm_Time extends \Elementor\Widget_Base
     }
     public function get_title()
     {
-        return 'RForm - Time';
+        return 'Time';
     }
     public function get_categories()
     {

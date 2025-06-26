@@ -35,6 +35,7 @@ class Plugin
         require_once(RomeThemeForm::widget_dir() . 'rform-checkbox.php');
         require_once(RomeThemeForm::widget_dir() . 'rform-input-number.php');
         require_once(RomeThemeForm::widget_dir() . 'rform-input-tel.php');
+        require_once(RomeThemeForm::widget_dir() . 'rtform-gdpr.php');
         $widgets_manager->register(new RForm());
         $widgets_manager->register(new \RTForm_Text());
         $widgets_manager->register(new \Rform_Button_Submit());
@@ -47,6 +48,7 @@ class Plugin
         $widgets_manager->register(new \Rform_Checkbox_Widget());
         $widgets_manager->register(new \RTForm_Number());
         $widgets_manager->register(new \RForm_Phone());
+        $widgets_manager->register(new \Rform_GDPR());
     }
 
     public static function register_widget_styles()
@@ -58,6 +60,7 @@ class Plugin
         wp_enqueue_style('rform-select-style', \RomeThemeForm::widget_url() . 'assets/css/rform-select.css' , [] , \RomethemeForm::rform_version());
         wp_enqueue_style('rform-radiobutton-style', \RomeThemeForm::widget_url() . 'assets/css/rform-radiobutton.css' , [] , \RomethemeForm::rform_version());
         wp_enqueue_style('rform-checkbox-style', \RomeThemeForm::widget_url() . 'assets/css/rform-checkbox.css' , [] , \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-gdpr-style', \RomeThemeForm::widget_url() . 'assets/css/rform-gdpr.css' , [] , \RomethemeForm::rform_version());
         wp_enqueue_style('intlTelInput', \RomeThemeForm::widget_url() . 'assets/css/intlTelInput.css' , [] , \RomethemeForm::rform_version());
     }
 
@@ -67,6 +70,7 @@ class Plugin
         wp_enqueue_script('rtform-text-js', \RomeThemeForm::widget_url() . 'assets/js/rtform_text.js', ['jquery'], \RomeThemeForm::rform_version());
         wp_enqueue_script('rform-select-js', \RomeThemeForm::widget_url() . 'assets/js/rform_select.js', ['jquery'], \RomeThemeForm::rform_version());
         wp_enqueue_script('rform-phone-js', \RomeThemeForm::widget_url() . 'assets/js/rform_tel_input.js', ['jquery'], \RomeThemeForm::rform_version());
+        wp_enqueue_script('rform-gdpr-js', \RomeThemeForm::widget_url() . 'assets/js/rform-gdpr.js', ['jquery'], \RomeThemeForm::rform_version());
         wp_enqueue_script('rform-script', \RomeThemeForm::widget_url() . 'assets/js/rform.js', ['jquery'], \RomeThemeForm::rform_version());
         wp_localize_script('rform-script', 'romethemeform_ajax_url', array(
             'ajax_url' => admin_url('admin-ajax.php'),
@@ -82,7 +86,7 @@ class Plugin
     {
         $categories = [];
         $categories['romethemeform_form_fields'] = [
-            'title' => 'Rometheme Form',
+            'title' => 'RTMForm',
         ];
 
         $old_categories = $elements_manager->get_categories();

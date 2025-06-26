@@ -8,7 +8,7 @@ class RTForm_Number extends \Elementor\Widget_Base
     }
     public function get_title()
     {
-        return 'RForm - Number';
+        return 'Number';
     }
     public function get_categories()
     {

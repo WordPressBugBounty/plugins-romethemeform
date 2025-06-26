@@ -1,21 +1,20 @@
 <?php
 
-class Rform_Radio_Widget extends \Elementor\Widget_Base
+class Rform_GDPR extends \Elementor\Widget_Base
 {
-
     public function get_name()
     {
-        return 'rform-radio-widget';
+        return 'rform-gdpr-widget';
     }
 
     public function get_title()
     {
-        return __('Radio', 'romethemeform');
+        return __('GDPR Consent', 'romethemeform');
     }
 
     public function get_icon()
     {
-        return 'rform-widget-icon rtmicon rtmicon-radio';
+        return 'rform-widget-icon rtmicon rtmicon-checkbox';
     }
 
     public function get_categories()
@@ -30,7 +29,12 @@ class Rform_Radio_Widget extends \Elementor\Widget_Base
 
     public function get_style_depends()
     {
-        return ['rform-radiobutton-style', 'rtform-text-style'];
+        return ['rform-checkbox-style', 'rform-gdpr-style', 'rtform-text-style'];
+    }
+
+    public function get_script_depends()
+    {
+        return ['rform-gdpr-js'];
     }
 
     protected function register_controls()
@@ -73,7 +77,7 @@ class Rform_Radio_Widget extends \Elementor\Widget_Base
         $this->add_control('label_text', [
             'label' => esc_html__('Label', 'romethemeform'),
             'type' => \Elementor\Controls_Manager::TEXT,
-            'default' => esc_html__('Radio', 'romethemeform'),
+            'default' => esc_html__('GDPR Consent', 'romethemeform'),
             'condition' => [
                 'show_label' => 'yes'
             ]
@@ -83,115 +87,28 @@ class Rform_Radio_Widget extends \Elementor\Widget_Base
         $this->add_control('name_input', [
             'label' => esc_html__('Name', 'romethemeform'),
             'type' => \Elementor\Controls_Manager::TEXT,
-            'default' => esc_html__('rform-radiobtn', 'romethemeform'),
+            'default' => esc_html__('rform-gdpr-consent', 'romethemeform'),
             'description' => esc_html__('Name is must required. Enter name without space or any special character. use only underscore/ hyphen (_/-) for multiple word. Name must be different.', 'romethemeform')
         ]);
-
-        $this->add_responsive_control(
-            'option_display',
-            [
-                'label' => esc_html__('Option Display', 'romethemeform'),
-                'type' => \Elementor\Controls_Manager::CHOOSE,
-                'options' => [
-                    'column' => [
-                        'title' => esc_html__('Vertical', 'romethemeform'),
-                        'icon' => 'eicon-arrow-down',
-                    ],
-                    'row' => [
-                        'title' => esc_html__('Horizontal', 'romethemeform'),
-                        'icon' => 'eicon-arrow-right',
-                    ],
-                ],
-                'default' => 'row',
-                'toggle' => true,
-                'selectors' => [
-                    '{{WRAPPER}} .rform-radio-button' => 'flex-direction: {{VALUE}};',
-                ],
-            ]
-        );
 
         $this->add_responsive_control('option_text_position', [
             'label' => esc_html('Option Text Position :'),
             'type' => \Elementor\Controls_Manager::SELECT,
             'options' => [
-                'row' => esc_html('After Radio'),
-                'row-reverse' => esc_html('Before Radio'),
+                'row' => esc_html('After checkbox'),
+                'row-reverse' => esc_html('Before checkbox'),
             ],
             'default' => 'row',
             'selectors'  => [
-                '{{WRAPPER}} .rform-radiobtn-container' => 'flex-direction: {{VALUE}}'
+                '{{WRAPPER}} .rform-checkboxbtn-container' => 'flex-direction: {{VALUE}}'
             ]
         ]);
 
-
-        $repeater = new \Elementor\Repeater();
-
-        $repeater->add_control(
-            'option_text',
-            [
-                'label' => __('Option Text', 'elementor'),
-                'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => __('Option', 'elementor'),
-                'label_block' => true,
-                'description' => esc_html('Select option text that will be show to user.')
-            ]
-        );
-
-        $repeater->add_control(
-            'option_value',
-            [
-                'label' => __('Option Value', 'elementor'),
-                'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => __('option', 'elementor'),
-                'label_block' => true,
-                'description' => esc_html('Select option value that will be store/mail to desired person..')
-            ]
-        );
-
-        $repeater->add_control('option_status', [
-            'label' => esc_html('Option Status'),
-            'type' => \Elementor\Controls_Manager::SELECT,
-            'options' => [
-                '' => esc_html('Active'),
-                'disabled' => esc_html('Disable'),
-            ],
-            'description' => esc_html("Want to make a option? which user can see the option but can't select it. make it disable.")
+        $this->add_control('gdpr_text', [
+            'label' => esc_html__('GDPR Consent Text', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::TEXTAREA,
+            'default' => "Agree on our <a href='#'>terms and condition</a> for using your submitted data ?",
         ]);
-
-        $repeater->add_control('option_default', [
-            'label' => esc_html('Select it default ?'),
-            'type' => \Elementor\Controls_Manager::SWITCHER,
-            'label_on' => esc_html__('Yes', 'romethemeform'),
-            'label_off' => esc_html__('No', 'romethemeform'),
-            'return_value' => 'yes',
-            'default' => 'no',
-            'description' => esc_html("Make this option default selected.")
-        ]);
-
-        $this->add_control(
-            'radio_options',
-            [
-                'label' => __('Radio Options', 'elementor'),
-                'type' => \Elementor\Controls_Manager::REPEATER,
-                'fields' => $repeater->get_controls(),
-                'default' => [
-                    [
-                        'option_text' => __('Option 1', 'elementor'),
-                        'option_value' => 'option_1',
-                        'option_default' => 'yes'
-                    ],
-                    [
-                        'option_text' => __('Option 2', 'elementor'),
-                        'option_value' => 'option_2',
-                    ],
-                    [
-                        'option_text' => __('Option 3', 'elementor'),
-                        'option_value' => 'option_3',
-                    ],
-                ],
-                'title_field' => '{{{ option_text }}}',
-            ]
-        );
 
         $this->add_control('help_text', [
             'label' => esc_html__('Help Text', 'romethemeform'),
@@ -301,8 +218,8 @@ class Rform_Radio_Widget extends \Elementor\Widget_Base
 
         $this->end_controls_section();
 
-        $this->start_controls_section('radio_style', [
-            'label' => esc_html('Radio'),
+        $this->start_controls_section('checkbox_style', [
+            'label' => esc_html('Checkbox'),
             'tab' => \Elementor\Controls_Manager::TAB_STYLE
         ]);
 
@@ -313,7 +230,7 @@ class Rform_Radio_Widget extends \Elementor\Widget_Base
                 'type' => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em', 'rem'],
                 'selectors' => [
-                    '{{WRAPPER}} .rform-radiobtn-container' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .rform-checkboxbtn-container' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -325,200 +242,217 @@ class Rform_Radio_Widget extends \Elementor\Widget_Base
                 'type' => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em', 'rem'],
                 'selectors' => [
-                    '{{WRAPPER}} .rform-radiobtn-container' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .rform-checkboxbtn-container' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
 
         $this->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
-			[
-				'name' => 'option_typography',
-				'selector' => '{{WRAPPER}} .rform-radiobtn-container',
-			]
-		);
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'option_typography',
+                'selector' => '{{WRAPPER}} .rform-checkboxbtn-container',
+            ]
+        );
 
         $this->add_control(
-			'size_options',
-			[
-				'label' => esc_html__( 'Size', 'textdomain' ),
-				'type' => \Elementor\Controls_Manager::HEADING,
-				'separator' => 'before',
-			]
-		);
+            'checkbox_size',
+            [
+                'label' => esc_html__('Checkbox Size', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'em', 'rem'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 1000,
+                        'step' => 5,
+                    ],
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .rform-checkbox-checkmark' => 'width: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
 
         $this->add_control(
-			'radio_size',
-			[
-				'label' => esc_html__( 'Radio Size', 'textdomain' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => [ 'px', '%', 'em', 'rem' ],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 1000,
-						'step' => 5,
-					],
-					'%' => [
-						'min' => 0,
-						'max' => 100,
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .rform-radio-checkmark' => 'width: {{SIZE}}{{UNIT}};',
-				],
-			]
-		);
+            'checkmark_size',
+            [
+                'label' => esc_html__('Checkmark Size', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'em', 'rem'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 1000,
+                        'step' => 5,
+                    ],
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .rform-checkbox-checkmark:after' => 'font-size: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
 
-        $this->add_control(
-			'dot_size',
-			[
-				'label' => esc_html__( 'Dot Size', 'textdomain' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => [ 'px', '%', 'em', 'rem' ],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 1000,
-						'step' => 5,
-					],
-					'%' => [
-						'min' => 0,
-						'max' => 100,
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .rform-radiobtn-container .rform-radio-checkmark:after' => 'width: {{SIZE}}{{UNIT}};',
-				],
-			]
-		);
 
-        $this->add_control(
-			'hr',
-			[
-				'type' => \Elementor\Controls_Manager::DIVIDER,
-			]
-		);
 
         $this->start_controls_tabs('option_tabs');
 
-        $this->start_controls_tab('option_tab_normal' , ['label' => esc_html('Normal')]);
+        $this->start_controls_tab('option_tab_normal', ['label' => esc_html('Normal')]);
 
-        $this->add_control('option_text_color_normal' , [
+        $this->add_control('option_text_color_normal', [
             'label' => esc_html('Text Color'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
-                '{{WRAPPER}} .rform-radiobtn-container' => 'color:{{VALUE}}'
+                '{{WRAPPER}} .rform-checkboxbtn-container' => 'color:{{VALUE}}'
             ]
         ]);
 
-        $this->add_control('option_radio_color_normal' , [
-            'label' => esc_html('Radio Background Color'),
+        $this->add_control('option_checkbox_color_normal', [
+            'label' => esc_html('Checkbox Background'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
-                '{{WRAPPER}} .rform-radiobtn-container input:not(:checked) ~ .rform-radio-checkmark' => 'background-color:{{VALUE}}'
+                '{{WRAPPER}} .rform-checkboxbtn-container input:not(:checked) ~ .rform-checkbox-checkmark' => 'background-color:{{VALUE}}'
             ]
         ]);
 
         $this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			[
-				'name' => 'border_option_normal',
-				'selector' => '{{WRAPPER}} .rform-radiobtn-container input:not(:checked) ~ .rform-radio-checkmark',
-			]
-		);
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'border_option_normal',
+                'selector' => '{{WRAPPER}} .rform-checkboxbtn-container input:not(:checked) ~ .rform-checkbox-checkmark',
+            ]
+        );
 
         $this->end_controls_tab();
 
-        $this->start_controls_tab('option_tab_hover' , ['label' => esc_html('Hover')]);
+        $this->start_controls_tab('option_tab_hover', ['label' => esc_html('Hover')]);
 
-        $this->add_control('option_text_color_hover' , [
+        $this->add_control('option_text_color_hover', [
             'label' => esc_html('Text Color'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
-                '{{WRAPPER}} .rform-radiobtn-container:hover' => 'color:{{VALUE}}'
+                '{{WRAPPER}} .rform-checkboxbtn-container:hover' => 'color:{{VALUE}}'
             ]
         ]);
 
-        $this->add_control('option_radio_color_hover' , [
-            'label' => esc_html('Radio Background Color'),
+        $this->add_control('option_checkbox_color_hover', [
+            'label' => esc_html('Checkbox Background'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
-                '{{WRAPPER}} .rform-radiobtn-container:hover input:not(:checked) ~ .rform-radio-checkmark' => 'background-color:{{VALUE}}'
+                '{{WRAPPER}} .rform-checkboxbtn-container:hover input:not(:checked) ~ .rform-checkbox-checkmark' => 'background-color:{{VALUE}}'
             ]
         ]);
 
         $this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			[
-				'name' => 'border_option_hover',
-				'selector' => '{{WRAPPER}} .rform-radiobtn-container:hover input:not(:checked) ~ .rform-radio-checkmark',
-			]
-		);
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'border_option_hover',
+                'selector' => '{{WRAPPER}} .rform-checkboxbtn-container:hover input:not(:checked) ~ .rform-checkbox-checkmark',
+            ]
+        );
 
         $this->end_controls_tab();
 
-        $this->start_controls_tab('option_tab_checked' , ['label' => esc_html('Checked')]);
+        $this->start_controls_tab('option_tab_checked', ['label' => esc_html('Checked')]);
 
-        $this->add_control('option_radio_color_checked' , [
-            'label' => esc_html('Radio Background Color'),
+        $this->add_control('option_checkbox_color_checked', [
+            'label' => esc_html('Checkbox Color'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
-                '{{WRAPPER}} .rform-radiobtn-container input:checked ~ .rform-radio-checkmark' => 'background-color:{{VALUE}}'
+                '{{WRAPPER}} .rform-checkboxbtn-container input:checked ~ .rform-checkbox-checkmark:after' => 'color:{{VALUE}}'
             ]
         ]);
 
-        $this->add_control('option_dot_color_checked' , [
-            'label' => esc_html('Radio Dot Color'),
+
+        $this->add_control('option_checkbox_bgcolor_checked', [
+            'label' => esc_html('Checkbox Background'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
-                '{{WRAPPER}} .rform-radiobtn-container input:checked ~ .rform-radio-checkmark:after' => 'background-color:{{VALUE}}'
+                '{{WRAPPER}} .rform-checkboxbtn-container input:checked ~ .rform-checkbox-checkmark' => 'background-color:{{VALUE}}'
             ]
         ]);
 
         $this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			[
-				'name' => 'border_option_checked',
-				'selector' => '{{WRAPPER}} .rform-radiobtn-container input:checked ~ .rform-radio-checkmark',
-			]
-		);
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'border_option_checked',
+                'selector' => '{{WRAPPER}} .rform-checkboxbtn-container input:checked ~ .rform-checkbox-checkmark',
+            ]
+        );
 
         $this->end_controls_tab();
-
-
 
         $this->end_controls_tabs();
 
+        $this->end_controls_section();
+
+        $this->start_controls_section('help_text_style', [
+            'label' => esc_html__('Help Text', 'romethemeform'),
+            'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            'condition' => [
+                'help_text!' => ''
+            ]
+        ]);
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'help_text_typography',
+                'selector' => '{{WRAPPER}} .rform-help-text',
+            ]
+        );
+
+        $this->add_control('help_text_color', [
+            'label' => esc_html__('Color', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .rform-help-text' => 'color:{{VALUE}}'
+            ]
+        ]);
+
+        $this->add_responsive_control('help_text_padding', [
+            'label' => esc_html__('Padding', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::DIMENSIONS,
+            'size_units' => ['px', '%', 'em', 'rem'],
+            'selectors' => [
+                '{{WRAPPER}} .rform-help-text' => 'padding:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}'
+            ]
+        ]);
 
         $this->end_controls_section();
+
     }
 
     protected function render()
     {
         $settings = $this->get_settings_for_display();
-        $label_text = $settings['label_text'];
-        $radio_options = $settings['radio_options'];
+
 ?>
         <div class="rform-container">
             <div class="rform-control <?php echo esc_attr($settings['label_position']) ?>">
                 <?php if ('yes' === $settings['show_label']) : ?>
                     <label class="rform-label-input" for="rform-input-text-<?php echo $this->get_id_int(); ?>">
-                        <?php echo esc_html__($label_text, 'romethemeform') ?>
-                        <?php if ( isset($settings['required_input']) and 'yes' == $settings['required_input']) : ?><span> * </span><?php endif; ?>
+                        <?php echo esc_html__($settings['label_text'], 'romethemeform') ?>
                     </label>
                 <?php endif; ?>
-                <div class="rform-radio-button">
-                    <?php foreach ($settings['radio_options'] as $option) : ?>
-                        <label class="rform-radiobtn-container">
-                            <div>
-                                <input type="radio" value="<?php echo esc_attr($option['option_value']) ?>" name="<?php echo esc_attr($settings['name_input']) ?>" <?php echo esc_attr($option['option_status']);
-                                                                                                                                                                    echo ($option['option_default'] === 'yes') ? esc_attr('checked') : '' ?>>
-                                <span class="rform-radio-checkmark"></span>
-                            </div>
-                            <span class="rform-radio-label"><?php echo esc_html($option['option_text']) ?></span>
-                        </label>
-                    <?php endforeach; ?>
+                <div class="rform-checkbox-gdpr">
+                    <label class="rform-checkboxbtn-container rform-gdpr-container">
+                        <div>
+                            <input class="checkbox-gdpr" type="checkbox" value="true" name="<?Php echo esc_attr($settings['name_input']) ?>" required>
+                            <span class="rform-checkbox-checkmark"></span>
+                        </div>
+                        <span class="rform-checkbox-label">
+                            <?php echo wp_kses_post($settings['gdpr_text']) ?>
+                        </span>
+                    </label>
                 </div>
             </div>
             <span role="alert" class="rform-error" id="rform-input-err-<?php echo $this->get_id_int(); ?>"><?php echo esc_html__($settings['warning_message'], 'romethemeform') ?></span>

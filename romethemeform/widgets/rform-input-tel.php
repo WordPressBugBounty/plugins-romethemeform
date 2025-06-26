@@ -8,7 +8,7 @@ class RForm_Phone extends \Elementor\Widget_Base
     }
     public function get_title()
     {
-        return 'RForm - Telephone';
+        return 'Telephone';
     }
     public function get_categories()
     {

@@ -8,7 +8,7 @@ class RTForm_Text extends \Elementor\Widget_Base
     }
     public function get_title()
     {
-        return 'RForm - Text';
+        return 'Text';
     }
     public function get_categories()
     {

@@ -1,10 +1,10 @@
 === RTMForm Builder for Elementor ===
 Contributors: dickoandrean
-Tags: addons, widget, elementor, form ,form builder , extension
+Tags: form ,elementor form, custom form , contact form builder
 Requires at least: 6.6
 Tested up to: 6.8.1
 Requires PHP: 7.4
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,6 +12,8 @@ RTMForm For Elementor Plugin is an Form Builder for Elementor, and Widget Ready 
 
 == Description ==
 RTMForm is a Contact Form Builder for Elementor. It's easy, fast, and also safe to create any fancy contact form in just minutes. Collect information, make your content interactive, and generate more conversions.
+
+<iframe width="720" height="400" src="https://www.youtube.com/embed/TReUYR1VKsQ?si=kncDQxWtb29xA6va" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 Features
 • Elementor Input Fields: Create Custom forms for all your needs with as many fields as you like.
@@ -33,6 +35,7 @@ Elementor widgets fields to build your form :
 - Select Input Field: A simple drop-down function allows you to select items of your own choice.
 - Number Input Field: This Input field will ensure that users enter a valid Number with numeric input.
 - Submit Button: it triggers the submission to collect all the data entered by the user and send it to the server for processing. This data can include text inputs, selections, checkboxes, and more, depending on the form's structure.
+- GDPR Consent: Ensures the user explicitly agrees to the collection and processing of their personal data in compliance with data protection regulations.
 
 == Installation ==
 1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
@@ -51,6 +54,11 @@ Elementor widgets fields to build your form :
 Login your WordPress dashboard,  From the left menu click the RTMForm icon.
 
 == Changelog ==
+Version 1.2.3
+* New Widget : GDPR Consent Widget
+* Update Submit Button Widget
+
+
 Version 1.2.2
 * Fixed : Issue on Button can't click save & editing in the "Form" theme builder.
 * Improved : Added background and border controls for the icon in the "Submit Button" widget

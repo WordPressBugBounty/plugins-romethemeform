@@ -43,7 +43,7 @@ require_once(RomeTheme::plugin_dir() . 'view/header.php');
                         $current_url = add_query_arg(array()); // get the current URL
                         $base_url = remove_query_arg('paged', $current_url);
                         if ($total_pages > 1) {
-                            $current_page = max(1, intval(sanitize_text_field($_GET['paged'])));
+                            $current_page = max(1, intval($paged));
                             echo '<div class="entries-pagination">';
                             echo paginate_links(array(
                                 'base' => $base_url . '&paged=%#%',

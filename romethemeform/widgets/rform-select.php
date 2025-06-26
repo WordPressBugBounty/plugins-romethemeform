@@ -8,7 +8,7 @@ class RTForm_select extends \Elementor\Widget_Base
     }
     public function get_title()
     {
-        return 'RForm - select';
+        return 'Select';
     }
     public function get_categories()
     {
