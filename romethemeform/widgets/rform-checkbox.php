@@ -201,6 +201,49 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
 
         $this->end_controls_section();
 
+        $this->start_controls_section('settings_section', [
+            'label' => esc_html__('Setting', 'rometheme-for-elementor'),
+            'tab' => \Elementor\Controls_Manager::TAB_CONTENT
+        ]);
+        $this->add_control(
+            'required_input',
+            [
+                'label' => esc_html__('Required ?', 'romethemeform'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('Yes', 'romethemeform'),
+                'label_off' => esc_html__('No', 'romethemeform'),
+                'return_value' => 'yes',
+                'default' => 'yes',
+                'description' => esc_html__('Is this field is required for submit the form?. Make it "Yes".', 'romethemeform')
+            ]
+        );
+
+         $this->add_control('min_length', [
+            'label' => esc_html__('Min Input Required', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::NUMBER,
+            'default' => 1,
+            'min' => 1,
+            'condition' => [
+                'required_input' => 'yes'
+            ]
+        ]);
+
+        $this->add_control('max_length', [
+            'label' => esc_html__('Max Input Allowed', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::NUMBER,
+            'condition' => [
+                'required_input' => 'yes'
+            ]
+        ]);
+
+        $this->add_control('warning_message', [
+            'label' => esc_html__('Warning Message', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::TEXTAREA,
+            'default' => esc_html__('This field is required', 'romethemeform')
+        ]);
+
+        $this->end_controls_section();
+
         $this->start_controls_section('label_style', [
             'label' => esc_html__('Label', 'romethemeform'),
             'tab' => \Elementor\Controls_Manager::TAB_STYLE,
@@ -331,66 +374,66 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
         );
 
         $this->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
-			[
-				'name' => 'option_typography',
-				'selector' => '{{WRAPPER}} .rform-checkboxbtn-container',
-			]
-		);
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'option_typography',
+                'selector' => '{{WRAPPER}} .rform-checkboxbtn-container',
+            ]
+        );
 
         $this->add_control(
-			'checkbox_size',
-			[
-				'label' => esc_html__( 'Checkbox Size', 'textdomain' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => [ 'px', '%', 'em', 'rem' ],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 1000,
-						'step' => 5,
-					],
-					'%' => [
-						'min' => 0,
-						'max' => 100,
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .rform-checkbox-checkmark' => 'width: {{SIZE}}{{UNIT}};',
-				],
-			]
-		);
+            'checkbox_size',
+            [
+                'label' => esc_html__('Checkbox Size', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'em', 'rem'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 1000,
+                        'step' => 5,
+                    ],
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .rform-checkbox-checkmark' => 'width: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
 
         $this->add_control(
-			'checkmark_size',
-			[
-				'label' => esc_html__( 'Checkmark Size', 'textdomain' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => [ 'px', '%', 'em', 'rem' ],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 1000,
-						'step' => 5,
-					],
-					'%' => [
-						'min' => 0,
-						'max' => 100,
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .rform-checkbox-checkmark:after' => 'font-size: {{SIZE}}{{UNIT}};',
-				],
-			]
-		);
+            'checkmark_size',
+            [
+                'label' => esc_html__('Checkmark Size', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'em', 'rem'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 1000,
+                        'step' => 5,
+                    ],
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .rform-checkbox-checkmark:after' => 'font-size: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
 
 
 
         $this->start_controls_tabs('option_tabs');
 
-        $this->start_controls_tab('option_tab_normal' , ['label' => esc_html('Normal')]);
+        $this->start_controls_tab('option_tab_normal', ['label' => esc_html('Normal')]);
 
-        $this->add_control('option_text_color_normal' , [
+        $this->add_control('option_text_color_normal', [
             'label' => esc_html('Text Color'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
@@ -398,7 +441,7 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
             ]
         ]);
 
-        $this->add_control('option_checkbox_color_normal' , [
+        $this->add_control('option_checkbox_color_normal', [
             'label' => esc_html('Checkbox Background'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
@@ -407,18 +450,18 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
         ]);
 
         $this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			[
-				'name' => 'border_option_normal',
-				'selector' => '{{WRAPPER}} .rform-checkboxbtn-container input:not(:checked) ~ .rform-checkbox-checkmark',
-			]
-		);
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'border_option_normal',
+                'selector' => '{{WRAPPER}} .rform-checkboxbtn-container input:not(:checked) ~ .rform-checkbox-checkmark',
+            ]
+        );
 
         $this->end_controls_tab();
 
-        $this->start_controls_tab('option_tab_hover' , ['label' => esc_html('Hover')]);
+        $this->start_controls_tab('option_tab_hover', ['label' => esc_html('Hover')]);
 
-        $this->add_control('option_text_color_hover' , [
+        $this->add_control('option_text_color_hover', [
             'label' => esc_html('Text Color'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
@@ -426,7 +469,7 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
             ]
         ]);
 
-        $this->add_control('option_checkbox_color_hover' , [
+        $this->add_control('option_checkbox_color_hover', [
             'label' => esc_html('Checkbox Background'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
@@ -435,18 +478,18 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
         ]);
 
         $this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			[
-				'name' => 'border_option_hover',
-				'selector' => '{{WRAPPER}} .rform-checkboxbtn-container:hover input:not(:checked) ~ .rform-checkbox-checkmark',
-			]
-		);
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'border_option_hover',
+                'selector' => '{{WRAPPER}} .rform-checkboxbtn-container:hover input:not(:checked) ~ .rform-checkbox-checkmark',
+            ]
+        );
 
         $this->end_controls_tab();
 
-        $this->start_controls_tab('option_tab_checked' , ['label' => esc_html('Checked')]);
+        $this->start_controls_tab('option_tab_checked', ['label' => esc_html('Checked')]);
 
-        $this->add_control('option_checkbox_color_checked' , [
+        $this->add_control('option_checkbox_color_checked', [
             'label' => esc_html('Checkbox Color'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
@@ -455,7 +498,7 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
         ]);
 
 
-        $this->add_control('option_checkbox_bgcolor_checked' , [
+        $this->add_control('option_checkbox_bgcolor_checked', [
             'label' => esc_html('Checkbox Background'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
@@ -464,18 +507,104 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
         ]);
 
         $this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			[
-				'name' => 'border_option_checked',
-				'selector' => '{{WRAPPER}} .rform-checkboxbtn-container input:checked ~ .rform-checkbox-checkmark',
-			]
-		);
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'border_option_checked',
+                'selector' => '{{WRAPPER}} .rform-checkboxbtn-container input:checked ~ .rform-checkbox-checkmark',
+            ]
+        );
 
         $this->end_controls_tab();
 
 
 
         $this->end_controls_tabs();
+
+
+        $this->end_controls_section();
+
+        $this->start_controls_section('warning_style', [
+            'label' => esc_html__('Warning', 'romethemeform'),
+            'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+        ]);
+
+        $this->add_responsive_control(
+            'warning_text_align',
+            [
+                'label' => esc_html__('Alignment', 'romethemeform'),
+                'type' => \Elementor\Controls_Manager::CHOOSE,
+                'options' => [
+                    'left' => [
+                        'title' => esc_html__('Left', 'romethemeform'),
+                        'icon' => 'eicon-text-align-left',
+                    ],
+                    'center' => [
+                        'title' => esc_html__('Center', 'romethemeform'),
+                        'icon' => 'eicon-text-align-center',
+                    ],
+                    'right' => [
+                        'title' => esc_html__('Right', 'romethemeform'),
+                        'icon' => 'eicon-text-align-right',
+                    ],
+                ],
+                'default' => 'left',
+                'toggle' => true,
+                'selectors' => [
+                    '{{WRAPPER}} .rform-error' => 'text-align: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control('warning_color', [
+            'label' => esc_html__('Color', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .rform-error' => 'color:{{VALUE}}'
+            ]
+        ]);
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'warning_typography',
+                'selector' => '{{WRAPPER}} .rform-error',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section('help_text_style', [
+            'label' => esc_html__('Help Text', 'romethemeform'),
+            'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            'condition' => [
+                'help_text!' => ''
+            ]
+        ]);
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'help_text_typography',
+                'selector' => '{{WRAPPER}} .rform-help-text',
+            ]
+        );
+
+        $this->add_control('help_text_color', [
+            'label' => esc_html__('Color', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .rform-help-text' => 'color:{{VALUE}}'
+            ]
+        ]);
+
+        $this->add_responsive_control('help_text_padding', [
+            'label' => esc_html__('Padding', 'romethemeform'),
+            'type' => \Elementor\Controls_Manager::DIMENSIONS,
+            'size_units' => ['px', '%', 'em', 'rem'],
+            'selectors' => [
+                '{{WRAPPER}} .rform-help-text' => 'padding:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}'
+            ]
+        ]);
 
 
         $this->end_controls_section();
@@ -492,14 +621,19 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
                 <?php if ('yes' === $settings['show_label']) : ?>
                     <label class="rform-label-input" for="rform-input-text-<?php echo $this->get_id_int(); ?>">
                         <?php echo esc_html__($label_text, 'romethemeform') ?>
-                        <?php if ( isset($settings['required_input']) and 'yes' == $settings['required_input']) : ?><span> * </span><?php endif; ?>
+                        <?php if (isset($settings['required_input']) and 'yes' == $settings['required_input']) : ?><span> * </span><?php endif; ?>
                     </label>
                 <?php endif; ?>
-                <div class="rform-checkbox-button">
+                <div class="rform-checkbox-button"
+                 <?php echo ('yes' === $settings['required_input']) ? esc_attr('required') : '' ?> 
+                <?php echo ($settings['min_length']) ? 'data-min="'.esc_attr($settings['min_length']).'"' : '' ?>
+                <?php echo ($settings['max_length']) ? 'data-max="'.esc_attr($settings['max_length']).'"' : '' ?>
+                >
                     <?php foreach ($settings['checkbox_options'] as $option) : ?>
                         <label class="rform-checkboxbtn-container">
                             <div>
-                                <input type="checkbox" value="<?php echo esc_attr($option['option_value']) ?>" name="<?php echo esc_attr($settings['name_input']) ?>[]" <?php echo esc_attr($option['option_status']); echo ($option['option_default'] === 'yes') ? esc_attr('checked') : '' ?>>
+                                <input class="rform-input" type="checkbox" value="<?php echo esc_attr($option['option_value']) ?>" name="<?php echo esc_attr($settings['name_input']) ?>[]" <?php echo esc_attr($option['option_status']);
+                                                                                                                                                                                            echo ($option['option_default'] === 'yes') ? esc_attr('checked') : '' ?>>
                                 <span class="rform-checkbox-checkmark"></span>
                             </div>
                             <span class="rform-checkbox-label"><?php echo esc_html($option['option_text']) ?></span>

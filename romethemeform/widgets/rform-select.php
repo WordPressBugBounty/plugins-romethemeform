@@ -30,7 +30,7 @@ class RTForm_select extends \Elementor\Widget_Base
 
     public function get_script_depends()
     {
-        return ['rform-select-js' , 'rtform-text-js'];
+        return ['rform-select-js', 'rtform-text-js'];
     }
 
     public function get_style_depends()
@@ -466,12 +466,12 @@ class RTForm_select extends \Elementor\Widget_Base
         ]);
 
         $this->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
-			[
-				'name' => 'placeholder_typography',
-				'selector' => '{{WRAPPER}} .rform-select::placeholder',
-			]
-		);
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'placeholder_typography',
+                'selector' => '{{WRAPPER}} .rform-select::placeholder',
+            ]
+        );
 
         $this->end_controls_section();
 
@@ -480,45 +480,74 @@ class RTForm_select extends \Elementor\Widget_Base
             'tab' => \Elementor\Controls_Manager::TAB_STYLE
         ]);
 
-        $this->add_responsive_control(
-			'option_padding',
-			[
-				'label' => esc_html__( 'Padding', 'romethemeform' ),
-				'type' => \Elementor\Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%', 'em', 'rem' ],
-				'selectors' => [    
-					'{{WRAPPER}} .rform-options-container ul li' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
-		);
+        $this->add_control(
+            'more_options_wrapper',
+            [
+                'label' => esc_html__('Option Wrapper', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
 
         $this->add_responsive_control(
-			'option-border-radius',
-			[
-				'label' => esc_html__( 'Border Radius', 'romethemeform' ),
-				'type' => \Elementor\Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%', 'em', 'rem' ],
-				'selectors' => [    
-					'{{WRAPPER}} .rform-options-container ul' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
-		);
+            'option-border-radius',
+            [
+                'label' => esc_html__('Border Radius', 'romethemeform'),
+                'type'  => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem'],
+                'selectors'  => [
+                    '{{WRAPPER}} .rform-options-container ul' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .rform-options-container ul li:first-child' => 'border-top-left-radius: {{TOP}}{{UNIT}}; border-top-right-radius: {{RIGHT}}{{UNIT}};',
+                    '{{WRAPPER}} .rform-options-container ul li:last-child' => 'border-bottom-left-radius: {{LEFT}}{{UNIT}}; border-bottom-right-radius: {{BOTTOM}}{{UNIT}};',
+                ],
+            ]
+        );
+
 
         $this->add_group_control(
-			\Elementor\Group_Control_Box_Shadow::get_type(),
-			[
-				'name' => 'box_shadow_option',
-				'selector' => '{{WRAPPER}} .rform-options-container ul',
-			]
-		);
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'box_shadow_option',
+                'selector' => '{{WRAPPER}} .rform-options-container ul',
+            ]
+        );
 
         $this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			[
-				'name' => 'border_option',
-				'selector' => '{{WRAPPER}} .rform-options-container ul',
-			]
-		);
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'border_option',
+                'selector' => '{{WRAPPER}} .rform-options-container ul',
+            ]
+        );
+
+        $this->add_control(
+            'more_options_list',
+            [
+                'label' => esc_html__('Option List', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'option_padding',
+            [
+                'label' => esc_html__('Padding', 'romethemeform'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em', 'rem'],
+                'selectors' => [
+                    '{{WRAPPER}} .rform-options-container ul li' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'border_option_li',
+                'selector' => '{{WRAPPER}} .rform-options-container ul li',
+            ]
+        );
 
         $this->start_controls_tabs('options_tabs');
 
@@ -561,7 +590,7 @@ class RTForm_select extends \Elementor\Widget_Base
         ]);
 
         $this->add_control('option_bg_hover', [
-            'label' => esc_html('Backgrounf Color'),
+            'label' => esc_html('Background Color'),
             'type' => \Elementor\Controls_Manager::COLOR,
             'selectors' => [
                 '{{WRAPPER}} .rform-option:hover' => 'background-color: {{VALUE}}'
@@ -579,7 +608,7 @@ class RTForm_select extends \Elementor\Widget_Base
             'tab' => \Elementor\Controls_Manager::TAB_STYLE,
         ]);
 
-        $this->add_control(
+        $this->add_responsive_control(
             'warning_text_align',
             [
                 'label' => esc_html__('Alignment', 'romethemeform'),
@@ -676,12 +705,11 @@ class RTForm_select extends \Elementor\Widget_Base
                 <?php endif; ?>
                 <div class="rform-select-container">
                     <div class="rform-select-div">
-                        <input id="rform-select-<?php echo esc_attr($this->get_id_int()); ?>" 
-                        class="rform-select" type="text"
-                        placeholder="<?php echo esc_attr($settings['placeholder_input']) ?>"
-                        readonly <?php echo ('yes' === $settings['required_input']) ? esc_attr('required') : '' ?>
-                        >
-                        <input class="rform-select-input" type="text" name="<?php echo esc_attr($settings['name_input']) ?>" value="" hidden >
+                        <input id="rform-select-<?php echo esc_attr($this->get_id_int()); ?>"
+                            class="rform-select rform-input" type="text"
+                            placeholder="<?php echo esc_attr($settings['placeholder_input']) ?>"
+                            readonly <?php echo ('yes' === $settings['required_input']) ? esc_attr('required') : '' ?>>
+                        <input class="rform-select-input" type="text" name="<?php echo esc_attr($settings['name_input']) ?>" value="" hidden>
                     </div>
                     <div class="rform-options-container">
                         <ul>

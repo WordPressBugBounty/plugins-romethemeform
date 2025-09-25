@@ -20,8 +20,8 @@
     background-color: white;
     border-radius: 5px;
     border-left: solid 10px #4CAF50;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    /* padding-top: 0.5rem;
+    padding-bottom: 0.5rem; */
     display: none;
     position: absolute;
     width: 100%;
@@ -34,27 +34,44 @@
 .require-msg-body {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    /* gap: 1rem; */
     height: inherit;
-    padding-inline-start: 1.5rem;
+    padding-inline: 1.5rem;
+    padding-block: 0.5rem;
 }
 
-.success-body h5,
-.require-msg-body h5 {
-    font-weight: bold !important;
-    margin-bottom : 0px !important;
+.success-body .success-title,
+.require-msg-body .required-title {
+    font-weight: bold ;
+    margin-bottom : 0px;
 }
 
-.close-msg {
-    background-color: transparent !important;
-    color: gray !important;
-    border: none !important;
-    padding-inline-end: 20px !important;
+.success-submit button.close-msg {
+    background-color: transparent ;
+    color: gray ;
+    border: none ;
+    padding: 10px ;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+    aspect-ratio: 1/1;
+    transition: all 0.5s;
 }
 
-.close-msg:hover {
-    color: black !important;
-    background-color: transparent !important;
+.success-submit button.close-msg::before {
+    content: "✖";
+    line-height: 1;
+}
+
+.success-submit .close-msg:hover {
+    color: black ;
+    background-color: transparent ;
+}
+
+.success-submit .success-icon {
+    color: #4CAF50;
+    fill: #4CAF50;
+    margin-right: 1rem;
 }
 
 @-webkit-keyframes slide-bottom {

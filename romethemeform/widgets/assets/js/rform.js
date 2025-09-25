@@ -20,15 +20,65 @@ jQuery(document).ready(($) => {
           }
         }
       });
+
+      // RADIO
+      form.find(".rform-input[type=radio][required]").each(function () {
+        $(this).on("change", function () {
+          const groupName = $(this).attr("name");
+          form
+            .find(`.rform-input[type=radio][name="${groupName}"]`)
+            .attr("aria-invalid", "false");
+        });
+      });
+
+      // CHECKBOX
+      let checkbox = form.find(".rform-checkbox-button[required]");
+
+      if (checkbox.length) {
+        checkbox.each(function () {
+          const $checkbox = $(this);
+          const min = parseInt($checkbox.data("min")) || 1;
+          const max = $checkbox.data("max")
+            ? parseInt($checkbox.data("max"))
+            : null;
+          const groupName = $checkbox
+            .find(".rform-input[type=checkbox]")
+            .attr("name");
+
+          const group = $checkbox.find(
+            `.rform-input[type=checkbox][name="${groupName}"]`
+          );
+
+          validateGroup(); // validasi awal
+
+          function validateGroup() {
+            const checkedCount = group.filter(":checked").length;
+            const isValid =
+              max !== null
+                ? checkedCount >= min && checkedCount <= max
+                : checkedCount >= min;
+            group.each(function () {
+              $this = $(this);
+              $this.attr("aria-invalid", ! isValid ? "true" : "false");
+              // console.log($this.attr('aria-invalid'));
+            });
+          }
+
+          group.on("change", validateGroup);
+        });
+      }
+
       if (form[0].checkValidity()) {
-        if (form.find("[aria-invalid= true]").length == 0) {
+        if (form.find("[aria-invalid=true]").length == 0) {
           // console.log('Form Valid');
 
           $(this).prop("disabled", true);
 
           let current_html = $(this).html();
 
-          $(this).html(`<div class="loading"><div id="loading"></div>Sending...</div>`);
+          $(this).html(
+            `<div class="loading"><div id="loading"></div>Sending...</div>`
+          );
           var data = form.serializeArray();
           var serializedInputs = {};
           var nonce = romethemeform_ajax_url.nonce;
@@ -53,13 +103,14 @@ jQuery(document).ready(($) => {
             page: window.location.href,
           };
           // console.log(data_sending);
-          sending_form(data_sending, $(this) , current_html);
+          sending_form(data_sending, $(this), current_html);
         } else {
           form.find(":invalid").each(function () {
             $(this).attr("aria-invalid", "true");
           });
         }
       } else {
+        // console.log('haii')
         form.find(":invalid").each(function () {
           $(this).attr("aria-invalid", "true");
         });

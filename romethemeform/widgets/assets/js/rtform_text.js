@@ -1,4 +1,5 @@
 function validate_input(cls_id, cls_err, id) {
+    console.log('here')
     const input = document.getElementById(cls_id + id);
     const err = document.getElementById(cls_err + id);
     var data_val = input.getAttribute('data-val');

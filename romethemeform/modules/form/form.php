@@ -66,7 +66,7 @@ class Form
                 wp_localize_script('rform-js', 'romethemeform_url', ['form_url' =>  admin_url() . 'admin.php?page=romethemeform-form']);
             }
         } else {
-            if ($screen->id === 'romethemekit_page_themebuilder' || str_contains($screen->id , 'rtmkit')) {
+            if ($screen->id === 'romethemekit_page_themebuilder' || str_contains($screen->id, 'rtmkit')) {
                 wp_enqueue_script('rform-js', $this->url . 'assets/js/form.js', ['jquery'], \RomeThemeForm::rform_version());
                 wp_localize_script('rform-js', 'romethemeform_ajax_url', array(
                     'ajax_url' => admin_url('admin-ajax.php'),
@@ -306,7 +306,7 @@ class Form
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
                         </svg>
                         <div style="width: 100% ;">
-                            <h5>Required Login</h5>
+                            <h5 class="required-title">Required Login</h5>
                             Please Login for Submit Form.
                         </div>
                         <div>
@@ -314,17 +314,22 @@ class Form
                         </div>
                     </div>
                 </div>
-                <div class="success-submit msg">
+                <div class="success-submit msg"
+                    <?php if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {
+                        echo 'style="display:block"';
+                    } ?>>
                     <div class="success-body">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#4CAF50" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" class="bi bi-check-circle-fill success-icon" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
                         </svg>
                         <div style="width: 100%;">
-                            <h5>Success</h5>
-                            <?php echo esc_html($success_msg); ?>
+                            <h5 class="success-title">Success</h5>
+                            <p class="success-description">
+                                <?php echo esc_html($success_msg); ?>
+                            </p>
                         </div>
                         <div>
-                            <a type="button" class="close-msg">Close</a>
+                            <button class="close-msg"></button>
                         </div>
                     </div>
                 </div>
@@ -406,8 +411,8 @@ class Form
             $newTitle = preg_replace_callback(
                 '/{{(.*?)}}/',
                 function ($match) use ($entri_id) {
-                    $dataMeta = get_post_meta($entri_id , 'rform-entri-data' , true );
-                    $datajson = json_decode($dataMeta , true);
+                    $dataMeta = get_post_meta($entri_id, 'rform-entri-data', true);
+                    $datajson = json_decode($dataMeta, true);
                     return $datajson[$match[1]];
                 },
                 $entri_title

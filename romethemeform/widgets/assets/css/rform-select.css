@@ -42,6 +42,7 @@
 .rform-options-container ul li {
     overflow: hidden;
     background-color: white;
+    cursor: pointer;
 }
 
 .rform-option {

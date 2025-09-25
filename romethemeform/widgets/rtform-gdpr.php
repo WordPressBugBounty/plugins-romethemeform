@@ -91,17 +91,14 @@ class Rform_GDPR extends \Elementor\Widget_Base
             'description' => esc_html__('Name is must required. Enter name without space or any special character. use only underscore/ hyphen (_/-) for multiple word. Name must be different.', 'romethemeform')
         ]);
 
-        $this->add_responsive_control('option_text_position', [
+        $this->add_control('option_text_position', [
             'label' => esc_html('Option Text Position :'),
             'type' => \Elementor\Controls_Manager::SELECT,
             'options' => [
-                'row' => esc_html('After checkbox'),
-                'row-reverse' => esc_html('Before checkbox'),
+                'after' => esc_html('After checkbox'),
+                'before' => esc_html('Before checkbox'),
             ],
-            'default' => 'row',
-            'selectors'  => [
-                '{{WRAPPER}} .rform-checkboxbtn-container' => 'flex-direction: {{VALUE}}'
-            ]
+            'default' => 'after',
         ]);
 
         $this->add_control('gdpr_text', [
@@ -223,6 +220,56 @@ class Rform_GDPR extends \Elementor\Widget_Base
             'tab' => \Elementor\Controls_Manager::TAB_STYLE
         ]);
 
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'option_typography',
+                'selector' => '{{WRAPPER}} .rform-checkboxbtn-container',
+            ]
+        );
+
+        $this->add_responsive_control('checkbox_position', [
+            'label' => esc_html('Checkbox Position'),
+            'type' => \Elementor\Controls_Manager::SELECT,
+            'options' => [
+                'inline-block' => esc_html('Inline'),
+                'inline-flex' => esc_html('Flex')
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .rform-gdpr-container' => 'display: {{VALUE}}'
+            ]
+        ]);
+
+        $this->add_responsive_control(
+            'checkbox_align',
+            [
+                'label' => esc_html__('Alignment', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::CHOOSE,
+                'options' => [
+                    'start' => [
+                        'title' => esc_html__('Top', 'textdomain'),
+                        'icon' => 'eicon-v-align-top',
+                    ],
+                    'center' => [
+                        'title' => esc_html__('Center', 'textdomain'),
+                        'icon' => 'eicon-v-align-middle',
+                    ],
+                    'end' => [
+                        'title' => esc_html__('Bottom', 'textdomain'),
+                        'icon' => 'eicon-v-align-bottom',
+                    ],
+                ],
+                'default' => 'center',
+                'toggle' => true,
+                'selectors' => [
+                    '{{WRAPPER}} .rform-gdpr-container' => 'align-items: {{VALUE}};',
+                ],
+                'condition' => [
+                    'checkbox_position' => 'inline-flex'
+                ]
+            ]
+        );
+
         $this->add_responsive_control(
             'option_padding',
             [
@@ -236,25 +283,28 @@ class Rform_GDPR extends \Elementor\Widget_Base
         );
 
         $this->add_responsive_control(
-            'option_margin',
+            'checkbox_spacing',
             [
-                'label' => esc_html__('Margin', 'textdomain'),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => ['px', '%', 'em', 'rem'],
+                'label' => esc_html__('Checkbox Spacing', 'textdomain'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'em', 'rem', 'custom'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 1000,
+                        'step' => 5,
+                    ],
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
                 'selectors' => [
-                    '{{WRAPPER}} .rform-checkboxbtn-container' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .rform-gdpr-container.after .rform-gdpr-checbox' => 'margin-right: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .rform-gdpr-container.before .rform-gdpr-checbox' => 'margin-left: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
-
-        $this->add_group_control(
-            \Elementor\Group_Control_Typography::get_type(),
-            [
-                'name' => 'option_typography',
-                'selector' => '{{WRAPPER}} .rform-checkboxbtn-container',
-            ]
-        );
-
         $this->add_control(
             'checkbox_size',
             [
@@ -428,7 +478,6 @@ class Rform_GDPR extends \Elementor\Widget_Base
         ]);
 
         $this->end_controls_section();
-
     }
 
     protected function render()
@@ -444,14 +493,22 @@ class Rform_GDPR extends \Elementor\Widget_Base
                     </label>
                 <?php endif; ?>
                 <div class="rform-checkbox-gdpr">
-                    <label class="rform-checkboxbtn-container rform-gdpr-container">
-                        <div>
-                            <input class="checkbox-gdpr" type="checkbox" value="true" name="<?Php echo esc_attr($settings['name_input']) ?>" required>
-                            <span class="rform-checkbox-checkmark"></span>
-                        </div>
+                    <label class="rform-checkboxbtn-container rform-gdpr-container <?php echo esc_attr($settings['option_text_position']) ?>">
+                        <?php if ($settings['option_text_position'] === 'after') : ?>
+                            <div class="rform-gdpr-checbox">
+                                <input class="checkbox-gdpr" type="checkbox" value="true" name="<?Php echo esc_attr($settings['name_input']) ?>" required>
+                                <span class="rform-checkbox-checkmark"></span>
+                            </div>
+                        <?php endif; ?>
                         <span class="rform-checkbox-label">
                             <?php echo wp_kses_post($settings['gdpr_text']) ?>
                         </span>
+                        <?php if ($settings['option_text_position'] === 'before') : ?>
+                            <div class="rform-gdpr-checbox">
+                                <input class="checkbox-gdpr" type="checkbox" value="true" name="<?Php echo esc_attr($settings['name_input']) ?>" required>
+                                <span class="rform-checkbox-checkmark"></span>
+                            </div>
+                        <?php endif; ?>
                     </label>
                 </div>
             </div>

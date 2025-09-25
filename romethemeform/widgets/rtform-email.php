@@ -439,12 +439,12 @@ class RTForm_Email extends \Elementor\Widget_Base
 
         $this->end_controls_section();
 
-        $this->start_controls_section('warning_tyle', [
+        $this->start_controls_section('warning_style', [
             'label' => esc_html__('Warning', 'romethemeform'),
             'tab' => \Elementor\Controls_Manager::TAB_STYLE,
         ]);
 
-        $this->add_control(
+        $this->add_responsive_control(
             'warning_text_align',
             [
                 'label' => esc_html__('Alignment', 'romethemeform'),

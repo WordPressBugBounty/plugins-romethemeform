@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Plugin Name:       RTMForm Builder for Elementor
+ * Plugin Name:       RTMForm Builder
  * Description:       The Advanced Form Builder for Elementor 
- * Version:           1.2.3
+ * Version:           1.2.4
  * Author:            Rometheme
  * Author URI: 	  	  https://rometheme.net/
  * License : 		  GPLv3
@@ -53,7 +53,7 @@ class RomeThemeForm
             add_action('elementor/controls/register', [\RomethemeFormPlugin\Plugin::class, 'add_controls']);
             add_action('wp_ajax_remove_notice', [$this, 'remove_notice']);
             add_action('rform_notices', [$this, 'rform_notice']);
-            do_action('rform_notices');
+            // do_action('rform_notices');
             add_action('elementor/editor/before_enqueue_styles', [RomethemeFormPlugin\Plugin::class, 'enqueue_frontend']);
         }
     }
@@ -78,7 +78,7 @@ class RomeThemeForm
 
     static function rform_version()
     {
-        return '1.2.2';
+        return '1.2.4';
     }
 
 

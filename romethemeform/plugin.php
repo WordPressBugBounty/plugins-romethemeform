@@ -62,6 +62,8 @@ class Plugin
         wp_enqueue_style('rform-checkbox-style', \RomeThemeForm::widget_url() . 'assets/css/rform-checkbox.css' , [] , \RomethemeForm::rform_version());
         wp_enqueue_style('rform-gdpr-style', \RomeThemeForm::widget_url() . 'assets/css/rform-gdpr.css' , [] , \RomethemeForm::rform_version());
         wp_enqueue_style('intlTelInput', \RomeThemeForm::widget_url() . 'assets/css/intlTelInput.css' , [] , \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-date-style', \RomeThemeForm::widget_url() . 'assets/css/rform-date.css' , [] , \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-time-style', \RomeThemeForm::widget_url() . 'assets/css/rform-time.css' , [] , \RomethemeForm::rform_version());
     }
 
     public static function register_widget_scripts()
