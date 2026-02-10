@@ -60,7 +60,7 @@
 
 .success-submit button.close-msg::before {
     content: "✖";
-    line-height: 1;
+    line-height: 0;
 }
 
 .success-submit .close-msg:hover {

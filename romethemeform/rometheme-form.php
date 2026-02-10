@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       RTMForm Builder
  * Description:       The Advanced Form Builder for Elementor 
- * Version:           1.2.4
+ * Version:           1.2.5
  * Author:            Rometheme
  * Author URI: 	  	  https://rometheme.net/
  * License : 		  GPLv3
@@ -22,15 +22,21 @@ class RomeThemeForm
     {
         require_once self::plugin_dir() . 'libs/notice/notice.php';
         // add_action('admin_menu', [$this, 'romethemeform_add_menu']);
-        add_action('plugins_loaded', [$this, 'init'], 100);
+        add_action('init', [$this, 'init']);
     }
     public function isCompatible()
     {
         if (!did_action('elementor/loaded')) {
             add_action('admin_head', array($this, 'missing_elementor'));
             return false;
-        } else if (!did_action('rometheme/plugins_loaded')) {
+        } else if (!did_action('rtmkit_loaded')) {
             add_action('admin_head', array($this, 'missing_romethemekit'));
+            return false;
+        }
+
+        $rtmkit_data = get_plugin_data(WP_PLUGIN_DIR . '/rometheme-for-elementor/RomeTheme.php');
+        if (version_compare($rtmkit_data['Version'], '2.0.0', '<')) {
+            add_action('admin_head', array($this, 'rtmkit_version_notice'));
             return false;
         }
 
@@ -78,7 +84,7 @@ class RomeThemeForm
 
     static function rform_version()
     {
-        return '1.2.4';
+        return '1.2.5';
     }
 
 
@@ -206,6 +212,24 @@ class RomeThemeForm
             ->set_type('error')
             ->set_message($message)
             ->set_button($btn)
+            ->call();
+    }
+
+    public function rtmkit_version_notice()
+    {
+        $rtmkit_data = get_plugin_data(WP_PLUGIN_DIR . '/rometheme-for-elementor/RomeTheme.php');
+        $message = sprintf(
+            /* translators: 1: Plugin name 2: Required version 3: Current version */
+            esc_html__('%1$s version ' . $this->rform_version() . ' requires %2$s version %3$s or greater. You are using version %4$s. Please update %2$s to the latest version.', 'romethemeform'),
+            '<strong>' . esc_html__('RTMForm', 'romethemeform') . '</strong>',
+            '<strong>' . esc_html__('RTMKit', 'romethemeform') . '</strong>',
+            '<strong>2.0.0</strong>',
+            '<strong>' . esc_html($rtmkit_data['Version']) . '</strong>'
+        );
+
+        \Oxaim\Libs\Notice::instance('romethemeform', 'unsupported-rtmkit-version')
+            ->set_type('error')
+            ->set_message($message)
             ->call();
     }
 

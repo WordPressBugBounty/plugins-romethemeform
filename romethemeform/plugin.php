@@ -37,33 +37,30 @@ class Plugin
         require_once(RomeThemeForm::widget_dir() . 'rform-input-tel.php');
         require_once(RomeThemeForm::widget_dir() . 'rtform-gdpr.php');
         $widgets_manager->register(new RForm());
-        $widgets_manager->register(new \RTForm_Text());
-        $widgets_manager->register(new \Rform_Button_Submit());
-        $widgets_manager->register(new \RTForm_Email());
-        $widgets_manager->register(new \RTForm_TextArea());
-        $widgets_manager->register(new \RTForm_Date());
-        $widgets_manager->register(new \RTForm_Time());
-        $widgets_manager->register(new \Rform_Radio_Widget());
-        $widgets_manager->register(new \RTForm_Select());
-        $widgets_manager->register(new \Rform_Checkbox_Widget());
-        $widgets_manager->register(new \RTForm_Number());
-        $widgets_manager->register(new \RForm_Phone());
-        $widgets_manager->register(new \Rform_GDPR());
+
+        $activeWidgets = \RTMKit\Modules\Widgets\WidgetStorage::instance()->get_active_widgets("form");
+
+        if (is_array($activeWidgets)) {
+            foreach ($activeWidgets as $widget) {
+                $classname = $widget['class_name'];
+                $widgets_manager->register(new $classname());
+            }
+        }
     }
 
     public static function register_widget_styles()
     {
-        wp_enqueue_style('rtform-text-style', \RomeThemeForm::widget_url() . 'assets/css/rtform_text.css' , [] , \RomethemeForm::rform_version());
-        wp_enqueue_style('rform-style', \RomeThemeForm::widget_url() . 'assets/css/rform.css' , [] , \RomethemeForm::rform_version());
-        wp_enqueue_style('spinner-style', \RomeThemeForm::widget_url() . 'assets/css/spinner-loading.css' , [] , \RomethemeForm::rform_version());
-        wp_enqueue_style('rform-btn-style', \RomeThemeForm::widget_url() . 'assets/css/rform-button.css' , [] , \RomethemeForm::rform_version());
-        wp_enqueue_style('rform-select-style', \RomeThemeForm::widget_url() . 'assets/css/rform-select.css' , [] , \RomethemeForm::rform_version());
-        wp_enqueue_style('rform-radiobutton-style', \RomeThemeForm::widget_url() . 'assets/css/rform-radiobutton.css' , [] , \RomethemeForm::rform_version());
-        wp_enqueue_style('rform-checkbox-style', \RomeThemeForm::widget_url() . 'assets/css/rform-checkbox.css' , [] , \RomethemeForm::rform_version());
-        wp_enqueue_style('rform-gdpr-style', \RomeThemeForm::widget_url() . 'assets/css/rform-gdpr.css' , [] , \RomethemeForm::rform_version());
-        wp_enqueue_style('intlTelInput', \RomeThemeForm::widget_url() . 'assets/css/intlTelInput.css' , [] , \RomethemeForm::rform_version());
-        wp_enqueue_style('rform-date-style', \RomeThemeForm::widget_url() . 'assets/css/rform-date.css' , [] , \RomethemeForm::rform_version());
-        wp_enqueue_style('rform-time-style', \RomeThemeForm::widget_url() . 'assets/css/rform-time.css' , [] , \RomethemeForm::rform_version());
+        wp_enqueue_style('rtform-text-style', \RomeThemeForm::widget_url() . 'assets/css/rtform_text.css', [], \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-style', \RomeThemeForm::widget_url() . 'assets/css/rform.css', [], \RomethemeForm::rform_version());
+        wp_enqueue_style('spinner-style', \RomeThemeForm::widget_url() . 'assets/css/spinner-loading.css', [], \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-btn-style', \RomeThemeForm::widget_url() . 'assets/css/rform-button.css', [], \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-select-style', \RomeThemeForm::widget_url() . 'assets/css/rform-select.css', [], \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-radiobutton-style', \RomeThemeForm::widget_url() . 'assets/css/rform-radiobutton.css', [], \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-checkbox-style', \RomeThemeForm::widget_url() . 'assets/css/rform-checkbox.css', [], \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-gdpr-style', \RomeThemeForm::widget_url() . 'assets/css/rform-gdpr.css', [], \RomethemeForm::rform_version());
+        wp_enqueue_style('intlTelInput', \RomeThemeForm::widget_url() . 'assets/css/intlTelInput.css', [], \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-date-style', \RomeThemeForm::widget_url() . 'assets/css/rform-date.css', [], \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-time-style', \RomeThemeForm::widget_url() . 'assets/css/rform-time.css', [], \RomethemeForm::rform_version());
     }
 
     public static function register_widget_scripts()
@@ -106,8 +103,9 @@ class Plugin
         $controls_manager->register(new \RFormControls());
     }
 
-    public static function enqueue_frontend() {
-        wp_enqueue_style('rform-admin-style' , RomeThemeForm::plugin_url() . 'assets/css/style.css' , '' , RomeThemeForm::rform_version());
+    public static function enqueue_frontend()
+    {
+        wp_enqueue_style('rform-admin-style', RomeThemeForm::plugin_url() . 'assets/css/style.css', '', RomeThemeForm::rform_version());
     }
 
     public static function rform_notice_raw()

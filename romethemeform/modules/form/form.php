@@ -14,15 +14,18 @@ class Form
     {
         $this->dir = \RomethemeForm::module_dir() . 'form/';
         $this->url = \RomeThemeForm::module_url() . 'form/';
-        add_action('init', [$this, 'romethemeform_template_post_type']);
-        add_action('init', [$this, 'register_post_meta']);
+        add_action('init', [$this, 'romethemeform_template_post_type'], 99);
+        add_action('init', [$this, 'register_post_meta'], 99);
         add_action('admin_menu', [$this, 'add_form_menu']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_romethemeform_scripts']);
-        add_action('wp_ajax_rtformnewform', [$this, 'rtformnewform']);
-        add_action('wp_ajax_rtformupdate', [$this, 'rtformupdate']);
-        add_action('wp_ajax_rformsendform', [$this, 'rformsendform']);
-        add_action('wp_ajax_nopriv_rformsendform', [$this, 'rformsendform']);
-        add_action('wp_ajax_export_entries', [$this, 'export_entries']);
+        if (wp_doing_ajax()) {
+            add_action('wp_ajax_rtformnewform', [$this, 'rtformnewform']);
+            add_action('wp_ajax_rtformupdate', [$this, 'rtformupdate']);
+            add_action('wp_ajax_rformsendform', [$this, 'rformsendform']);
+            add_action('wp_ajax_nopriv_rformsendform', [$this, 'rformsendform']);
+            add_action('wp_ajax_export_entries', [$this, 'export_entries']);
+            add_action('wp_ajax_get_form_data', [$this, 'get_form_data']);
+        }
         add_filter('single_template', array($this, 'load_canvas_template'));
         add_shortcode('rform', [$this, 'rform_shortcode']);
     }
@@ -53,7 +56,7 @@ class Form
         $form_nonce = wp_create_nonce('rform_form_ajax_nonce');
         $screen = get_current_screen();
 
-        if (!class_exists('RomeTheme')) {
+        if (!class_exists('RTMKit\\Core\\Plugin')) {
             if ('romethemeform_page_romethemeform-form' === $screen->id || 'romethemeform_page_romethemeform-entries' === $screen->id) {
                 wp_enqueue_style('style.css', \RomeThemeForm::plugin_url() . 'bootstrap/css/bootstrap.css');
                 wp_enqueue_script('romethemeform-js', \RomeThemeForm::plugin_url() . 'bootstrap/js/bootstrap.min.js');
@@ -112,8 +115,6 @@ class Form
             'map-meta-cap'       => true,
             'supports'            => array('title', 'thumbnail', 'elementor', 'custom-fields'),
         );
-        register_post_type('romethemeform_form', $args);
-
 
         $label_entries = array(
             'name'               => esc_html__('Rometheme Form Entries', 'romethemeform'),
@@ -133,6 +134,8 @@ class Form
             'hierarchical'        => false,
             'supports'            => array('title', 'thumbnail', 'elementor'),
         );
+
+        register_post_type('romethemeform_form', $args);
         register_post_type('romethemeform_entry', $args_entries);
     }
 
@@ -210,64 +213,77 @@ class Form
             update_post_meta($form_id, 'rtform_email_notification', json_encode($data_notif));
         }
 
-
-
         $url = admin_url('post.php?post=' . $form_id . '&action=elementor');
         wp_send_json_success(['url' => $url, 'form_id' => $form_id, 'form_name' => sanitize_text_field($_POST['form-name'])]);
     }
 
     public function rtformupdate()
     {
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'rform_form_ajax_nonce')) {
-            wp_send_json_error('Invalid nonce.');
-            wp_die();
+        if (
+            ! isset($_POST['nonce']) ||
+            ! wp_verify_nonce($_POST['nonce'], 'rform_form_ajax_nonce')
+        ) {
+            wp_send_json_error(['message' => 'Invalid nonce.']);
         }
 
-        $postId = sanitize_text_field($_POST['id']);
+        $postId = absint($_POST['id']);
 
-        if (!current_user_can('edit_posts', $postId)) {
-            wp_send_json_error('Access Denied');
-            wp_die();
+        if (! current_user_can('edit_post', $postId)) {
+            wp_send_json_error(['message' => 'Access denied.']);
         }
 
         $data = [
-            'ID' => $postId,
+            'ID'         => $postId,
             'post_title' => sanitize_text_field($_POST['form-name']),
             'meta_input' => [
-                'rtform_form_entry_title' => sanitize_text_field($_POST['entry-name']),
-                'rtform_form_restricted' => sanitize_text_field($_POST['require-login']),
-                'rtform_form_success_message' => sanitize_text_field($_POST['success-message'])
+                'rtform_form_entry_title'   => sanitize_text_field($_POST['entry-name']),
+                'rtform_form_restricted'    => sanitize_text_field($_POST['require-login']),
+                'rtform_form_success_message' => sanitize_text_field($_POST['success-message']),
             ]
         ];
 
-        if (isset($_POST['confirmation'])) {
+        // Confirmation
+        if (! empty($_POST['confirmation'])) {
             $data_confirm = [
                 'email_subject' => sanitize_text_field($_POST['email_subject']),
-                'email_from' => sanitize_email($_POST['email_from']),
+                'email_from'    => sanitize_email($_POST['email_from']),
                 'email_replyto' => sanitize_email($_POST['email_replyto']),
-                'thankyou_msg' => rawurlencode($_POST['tks_msg'])
+                'thankyou_msg'  => wp_kses_post($_POST['tks_msg']),
             ];
 
-            $data['meta_input']['rtform_email_confirmation'] = json_encode($data_confirm);
+            $data['meta_input']['rtform_email_confirmation'] = wp_json_encode($data_confirm);
         } else {
-            delete_post_meta($_POST['id'], 'rtform_email_confirmation');
+            delete_post_meta($postId, 'rtform_email_confirmation');
         }
 
-        if (isset($_POST['notification'])) {
+        // Notification
+        if (! empty($_POST['notification'])) {
             $data_notif = [
-                'notif_subject' => sanitize_text_field($_POST['notif_subject']),
-                'notif_email_to' => sanitize_text_field($_POST['notif_email_to']),
-                'notif_email_from' => sanitize_email($_POST['notif_email_from']),
-                'admin_note' => rawurlencode($_POST['adm_msg'])
+                'notif_subject'     => sanitize_text_field($_POST['notif_subject']),
+                'notif_email_to'    => sanitize_text_field($_POST['notif_email_to']),
+                'notif_email_from'  => sanitize_email($_POST['notif_email_from']),
+                'admin_note'        => wp_kses_post($_POST['adm_msg']),
             ];
-            $data['meta_input']['rtform_email_notification'] = json_encode($data_notif);
+
+            $data['meta_input']['rtform_email_notification'] = wp_json_encode($data_notif);
         } else {
-            delete_post_meta($_POST['id'], 'rtform_email_notification');
+            delete_post_meta($postId, 'rtform_email_notification');
         }
 
-        wp_update_post($data, false, true);
-        exit;
+        $result = wp_update_post($data, true);
+
+        if (is_wp_error($result)) {
+            wp_send_json_error([
+                'message' => $result->get_error_message(),
+            ]);
+        }
+
+        wp_send_json_success([
+            'message' => 'Form updated successfully.',
+            'post_id' => $postId,
+        ]);
     }
+
 
     public static function count_entries($id_post)
     {
@@ -524,5 +540,23 @@ class Form
         fclose($file);
         readfile($form_name . '-' . $form_id .  '.csv');
         exit();
+    }
+
+    public function get_form_data()
+    {
+        check_ajax_referer('rform_form_ajax_nonce', 'nonce');
+
+        $form_id = sanitize_text_field($_POST['form_id']);
+
+        $data = [];
+
+        $data['title'] = get_the_title($form_id);
+        $data['entri_title'] = get_post_meta($form_id, "rtform_form_entry_title", true);
+        $data['success_msg'] = get_post_meta($form_id, 'rtform_form_success_message', true);
+        $data['restricted'] = get_post_meta($form_id, "rtform_form_restricted", true);
+        $data['confirmation'] = get_post_meta($form_id, 'rtform_email_confirmation', true);
+        $data['notification'] = get_post_meta($form_id, 'rtform_email_notification', true);
+
+        wp_send_json_success($data);
     }
 }

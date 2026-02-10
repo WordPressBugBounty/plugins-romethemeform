@@ -17,7 +17,6 @@ if (isset($_GET['rform_id'])) {
 
 $entries = new WP_Query($args);
 
-require_once(RomeTheme::plugin_dir() . 'view/header.php');
 ?>
 
 <?php if (class_exists('Rometheme')) : ?>

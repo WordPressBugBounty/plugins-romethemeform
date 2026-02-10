@@ -1,10 +1,10 @@
 === RTMForm Builder ===
 Contributors: dickoandrean
 Tags: form ,elementor form, custom form , contact form builder
-Requires at least: 6.6
-Tested up to: 6.8.1
-Requires PHP: 7.4
-Stable tag: 1.2.4
+Requires at least: 6.8
+Tested up to: 6.9.1
+Requires PHP: 8.2
+Stable tag: 1.2.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -25,8 +25,7 @@ Packed with flexible customization options, real-time editing, and performance-o
 ✅ Export Entries as CSV: Export multiple data from your RTMForm that the user enters in a single CSV file and downloads in a spreadsheet.
 ✅ Required Login to Submit the Form: This feature of the secure contact form, will show all the required fields to fill up the form by giving a simple red star icon and providing an error message if needed.
 
-<iframe width="720" height="400" src="https://www.youtube.com/embed/TReUYR1VKsQ?si=kncDQxWtb29xA6va" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
+<iframe width="720" height="400" src="https://www.youtube.com/embed/TReUYR1VKsQ?si=kncDQxWtb29xA6va&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ### Useful Links
 [Docs](https://support.rometheme.net/) | [Video Tutorials](https://www.youtube.com/playlist?list=PLiDcdRZHQZ66vm5sZ6maMY-CZiZuweCRo) | [Join Community](https://www.facebook.com/groups/rometheme) | [What's New?](https://rometheme.net/roadmap/) | [Upgrade To Pro](https://rometheme.net/pricing/) | [Share Review](https://wordpress.org/support/plugin/rometheme-for-elementor/reviews/#new-post)
 
@@ -95,6 +94,8 @@ We’d love to hear your thoughts! Leave us a review on WordPress.org and help o
 Login your WordPress dashboard,  From the left menu click the RTMForm icon.
 
 == Changelog ==
+Version 1.2.5 - February 10, 2026
+* Update compatibility with RTMKit addons for elementor V 2.0
 
 Version 1.2.4 - September 25, 2025
 * Added control icon color in the "Date" widget.
