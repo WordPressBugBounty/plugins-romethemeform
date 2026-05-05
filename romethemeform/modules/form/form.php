@@ -16,7 +16,8 @@ class Form
         $this->url = \RomeThemeForm::module_url() . 'form/';
         add_action('init', [$this, 'romethemeform_template_post_type'], 99);
         add_action('init', [$this, 'register_post_meta'], 99);
-        add_action('admin_menu', [$this, 'add_form_menu']);
+        // add_action('admin_menu', [$this, 'add_form_menu']);
+        $this->compare_metadata_widget();
         add_action('admin_enqueue_scripts', [$this, 'enqueue_romethemeform_scripts']);
         if (wp_doing_ajax()) {
             add_action('wp_ajax_rtformnewform', [$this, 'rtformnewform']);
@@ -25,9 +26,21 @@ class Form
             add_action('wp_ajax_nopriv_rformsendform', [$this, 'rformsendform']);
             add_action('wp_ajax_export_entries', [$this, 'export_entries']);
             add_action('wp_ajax_get_form_data', [$this, 'get_form_data']);
+            add_action('wp_ajax_save_recaptcha_settings', [$this, 'save_recaptcha_settings']);
+            add_action('wp_ajax_get_recaptcha_settings_version', [$this, 'get_recaptcha_settings_version']);
         }
         add_filter('single_template', array($this, 'load_canvas_template'));
         add_shortcode('rform', [$this, 'rform_shortcode']);
+        add_filter('rtmkit_menus', function ($menus) {
+            $menus['settings']['form_settings'] = [
+                'title' => esc_html__('Form Settings', 'romethemeform'),
+                'capability' => 'manage_options',
+                'menu_slug' => 'rtmkit&path=form_settings',
+                'function' => [$this, 'rtmkit_root_page'],
+                'render_view' => \RomethemeForm::module_dir() . 'form/views/form_settings.php',
+            ];
+            return $menus;
+        });
     }
 
     function add_form_menu()
@@ -80,7 +93,6 @@ class Form
             }
         }
     }
-
 
     function romethemeform_template_post_type()
     {
@@ -375,6 +387,25 @@ class Form
             wp_die();
         }
 
+        if (isset($_POST['recaptchaToken'])) {
+            // $recaptcha_site_key_v3 = get_option('rform_recaptcha_site_key_v3', '');
+            $recaptcha_secret_key_v3 = get_option('rform_recaptcha_secret_key_v3', '');
+            $recaptcha_response = $_POST['recaptchaToken'];
+            $recaptcha_verify_url = 'https://www.google.com/recaptcha/api/siteverify';
+            $response = wp_remote_post($recaptcha_verify_url, [
+                'body' => [
+                    'secret' => $recaptcha_secret_key_v3,
+                    'response' => $recaptcha_response,
+                ],
+            ]);
+            $response_body = wp_remote_retrieve_body($response);
+            $result = json_decode($response_body, true);
+            if (!isset($result['success']) || $result['success'] !== true || $result['score'] < 0.5) {
+                wp_send_json_error('reCAPTCHA verification failed. Please try again.');
+                wp_die();
+            }
+        }
+
         $form_id = sanitize_text_field($_POST['id']);
         $data = sanitize_text_field($_POST['data']);
         $entri_title = get_post_meta($form_id, 'rtform_form_entry_title', true);
@@ -457,6 +488,10 @@ class Form
             $data_form = '';
             $json = json_decode(stripslashes($data), true);
             foreach ($json as $key => $value) {
+                if (is_array($value)) {
+                    $value = implode(', ', $value);
+                }
+
                 $data_form .= '<div style="width:100% ">';
                 $data_form .= '<strong style="background-color: #a7d3fc; padding:0.5rem; display:block;">' . $key . '</strong>';
                 $data_form .= '<span style="white-space: normal; padding:0.5rem ; display:block;">' . $value . '</span>';
@@ -485,6 +520,8 @@ class Form
                 wp_send_json_error(['error' => $error_message, 'data' => $notif_email]);
             }
         }
+
+        wp_send_json_success('Form submitted successfully.');
     }
 
     public static function export_entries()
@@ -558,5 +595,60 @@ class Form
         $data['notification'] = get_post_meta($form_id, 'rtform_email_notification', true);
 
         wp_send_json_success($data);
+    }
+
+    public function save_recaptcha_settings()
+    {
+        check_ajax_referer('rform_form_ajax_nonce', 'nonce');
+
+        $site_key = sanitize_text_field($_POST['site_key']);
+        $secret_key = sanitize_text_field($_POST['secret_key']);
+        $version = sanitize_text_field($_POST['version']);
+
+        update_option('rform_recaptcha_site_key_' . $version, $site_key);
+        update_option('rform_recaptcha_secret_key_' . $version, $secret_key);
+        update_option('rform_recaptcha_version', $version);
+
+        wp_send_json_success('reCAPTCHA settings saved successfully.');
+    }
+
+    public function get_recaptcha_settings_version()
+    {
+        check_ajax_referer('rform_form_ajax_nonce', 'nonce');
+
+        $version = sanitize_text_field($_POST['version']);
+        $site_key = get_option('rform_recaptcha_site_key_' . $version, '');
+        $secret_key = get_option('rform_recaptcha_secret_key_' . $version, '');
+        wp_send_json_success([
+            'site_key' => $site_key,
+            'secret_key' => $secret_key,
+        ]);
+    }
+
+    public function compare_metadata_widget()
+    {
+        $inKit = \RTMKit\Modules\Widgets\WidgetStorage::instance()->get_widget_data('form');
+        $inForm = $this->listWidgetForm();
+        if ($inKit !== $inForm) {
+            $metadataFormFile = \RomeThemeForm::plugin_dir() . '/assets/js/form_widgets.json';
+            $metadataKitFile = trailingslashit(RTM_KIT_DIR) . 'metadata/form_widgets.json';
+            $result = copy($metadataFormFile, $metadataKitFile);
+        }
+    }
+
+    public function listWidgetForm()
+    {
+        $widgetsFileJson = file_get_contents(\RomeThemeForm::plugin_dir() . '/assets/js/form_widgets.json');
+
+        $widgets = json_decode($widgetsFileJson, true);
+
+        uasort($widgets, function ($a, $b) {
+            if ($a['category'] === $b['category']) {
+                return strcasecmp($a['name'], $b['name']);
+            }
+            return strcasecmp($a['category'], $b['category']);
+        });
+
+        return $widgets;
     }
 }

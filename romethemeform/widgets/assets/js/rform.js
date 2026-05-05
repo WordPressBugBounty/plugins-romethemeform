@@ -46,7 +46,7 @@ jQuery(document).ready(($) => {
             .attr("name");
 
           const group = $checkbox.find(
-            `.rform-input[type=checkbox][name="${groupName}"]`
+            `.rform-input[type=checkbox][name="${groupName}"]`,
           );
 
           validateGroup(); // validasi awal
@@ -59,7 +59,7 @@ jQuery(document).ready(($) => {
                 : checkedCount >= min;
             group.each(function () {
               $this = $(this);
-              $this.attr("aria-invalid", ! isValid ? "true" : "false");
+              $this.attr("aria-invalid", !isValid ? "true" : "false");
               // console.log($this.attr('aria-invalid'));
             });
           }
@@ -77,11 +77,23 @@ jQuery(document).ready(($) => {
           let current_html = $(this).html();
 
           $(this).html(
-            `<div class="loading"><div id="loading"></div>Sending...</div>`
+            `<div class="loading"><div id="loading"></div>Sending...</div>`,
           );
           var data = form.serializeArray();
+          let captchaToken;
+
+          // recaptcha V3
+          let recaptchaV3 = form.find(".rform-recaptcha-token");
+          if (recaptchaV3.length > 0) {
+            if (recaptchaV3.val() !== "") {
+              captchaToken = recaptchaV3.val();
+            }
+          }
           var serializedInputs = {};
           var nonce = romethemeform_ajax_url.nonce;
+          data = data.filter(function (item) {
+            return item.name !== "g-recaptcha-response";
+          });
           $(data).each(function (index, obj) {
             if (serializedInputs[obj.name] !== undefined) {
               if (!Array.isArray(serializedInputs[obj.name])) {
@@ -102,6 +114,15 @@ jQuery(document).ready(($) => {
             nonce: nonce,
             page: window.location.href,
           };
+
+          if (
+            captchaToken !== undefined ||
+            captchaToken !== "" ||
+            captchaToken !== null ||
+            captchaToken.length > 0
+          ) {
+            data_sending["recaptchaToken"] = captchaToken;
+          }
           // console.log(data_sending);
           sending_form(data_sending, $(this), current_html);
         } else {
@@ -131,10 +152,16 @@ function sending_form(data, btn, current_html) {
       url: romethemeform_ajax_url.ajax_url,
       data: data,
       success: (e) => {
-        btn.prop("disabled", false);
-        btn.html(current_html);
-        btn.closest("form").find(".success-submit").css("display", "block");
-        btn.closest("form")[0].reset();
+        if (e.success) {
+          btn.prop("disabled", false);
+          btn.html(current_html);
+          btn.closest("form").find(".success-submit").css("display", "block");
+          btn.closest("form")[0].reset();
+        } else {
+          btn.prop("disabled", false);
+          btn.html(current_html);
+          alert(e.data);
+        }
         // console.log(e);
       },
       error: (jqXHR, textStatus, errorThrown) => {
@@ -142,4 +169,11 @@ function sending_form(data, btn, current_html) {
       },
     });
   });
+}
+
+function onRecaptchaSuccess() {
+  console.log("Recaptcha berhasil diselesaikan!");
+}
+function onRecaptchaExpired() {
+  console.log("Recaptcha telah kedaluwarsa. Silakan selesaikan lagi.");
 }

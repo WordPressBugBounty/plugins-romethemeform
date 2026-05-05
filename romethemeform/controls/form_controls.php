@@ -239,7 +239,6 @@ class RFormControls extends \Elementor\Base_Data_Control
                     </div>
                 </div>
 
-
         </div>
         <?php
     }

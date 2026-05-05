@@ -218,7 +218,7 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
             ]
         );
 
-         $this->add_control('min_length', [
+        $this->add_control('min_length', [
             'label' => esc_html__('Min Input Required', 'romethemeform'),
             'type' => \Elementor\Controls_Manager::NUMBER,
             'default' => 1,
@@ -340,6 +340,14 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
             'selectors' => [
                 '{{WRAPPER}} .rform-label-input' => 'margin:{{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}'
             ]
+        ]);
+
+        $this->add_control('required_color', [
+            'label' => esc_html__('Required Indicator Color'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .rform-label-input span' => 'color:{{VALUE}}'
+            ],
         ]);
 
         $this->end_controls_section();
@@ -625,10 +633,9 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
                     </label>
                 <?php endif; ?>
                 <div class="rform-checkbox-button"
-                 <?php echo ('yes' === $settings['required_input']) ? esc_attr('required') : '' ?> 
-                <?php echo ($settings['min_length']) ? 'data-min="'.esc_attr($settings['min_length']).'"' : '' ?>
-                <?php echo ($settings['max_length']) ? 'data-max="'.esc_attr($settings['max_length']).'"' : '' ?>
-                >
+                    <?php echo ('yes' === $settings['required_input']) ? esc_attr('required') : '' ?>
+                    <?php echo ($settings['min_length']) ? 'data-min="' . esc_attr($settings['min_length']) . '"' : '' ?>
+                    <?php echo ($settings['max_length']) ? 'data-max="' . esc_attr($settings['max_length']) . '"' : '' ?>>
                     <?php foreach ($settings['checkbox_options'] as $option) : ?>
                         <label class="rform-checkboxbtn-container">
                             <div>

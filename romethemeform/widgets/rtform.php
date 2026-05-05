@@ -57,6 +57,7 @@ class RForm extends \Elementor\Widget_Base
                 'fixed' => esc_html('Fixed'),
                 'relative' => esc_html('Relative'),
             ],
+            'default' => 'fixed',
             'selectors' => [
                 '{{WRAPPER}} .success-submit' => 'position : {{VALUE}}'
             ]

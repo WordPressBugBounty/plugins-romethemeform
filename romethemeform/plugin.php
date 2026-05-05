@@ -36,6 +36,7 @@ class Plugin
         require_once(RomeThemeForm::widget_dir() . 'rform-input-number.php');
         require_once(RomeThemeForm::widget_dir() . 'rform-input-tel.php');
         require_once(RomeThemeForm::widget_dir() . 'rtform-gdpr.php');
+        require_once(RomeThemeForm::widget_dir() . 'rform-recaptcha.php');
         $widgets_manager->register(new RForm());
 
         $activeWidgets = \RTMKit\Modules\Widgets\WidgetStorage::instance()->get_active_widgets("form");
@@ -61,16 +62,29 @@ class Plugin
         wp_enqueue_style('intlTelInput', \RomeThemeForm::widget_url() . 'assets/css/intlTelInput.css', [], \RomethemeForm::rform_version());
         wp_enqueue_style('rform-date-style', \RomeThemeForm::widget_url() . 'assets/css/rform-date.css', [], \RomethemeForm::rform_version());
         wp_enqueue_style('rform-time-style', \RomeThemeForm::widget_url() . 'assets/css/rform-time.css', [], \RomethemeForm::rform_version());
+        wp_enqueue_style('rform-recaptcha-style', \RomeThemeForm::widget_url() . 'assets/css/recaptcha.css', [], \RomethemeForm::rform_version());
     }
 
     public static function register_widget_scripts()
     {
         $rform_nonce = wp_create_nonce('rform_entries_nonce');
+
+        if (get_option('rform_recaptcha_version', 'v2') === 'v3') {
+            $recaptcha_site_key_v3 = get_option('rform_recaptcha_site_key_v3', '');
+            if ($recaptcha_site_key_v3) {
+                $recaptcha_script_url = 'https://www.google.com/recaptcha/api.js?render=' . esc_attr($recaptcha_site_key_v3);
+            }
+        } else {
+            $recaptcha_script_url = 'https://www.google.com/recaptcha/api.js';
+        }
+
         wp_enqueue_script('rtform-text-js', \RomeThemeForm::widget_url() . 'assets/js/rtform_text.js', ['jquery'], \RomeThemeForm::rform_version());
         wp_enqueue_script('rform-select-js', \RomeThemeForm::widget_url() . 'assets/js/rform_select.js', ['jquery'], \RomeThemeForm::rform_version());
         wp_enqueue_script('rform-phone-js', \RomeThemeForm::widget_url() . 'assets/js/rform_tel_input.js', ['jquery'], \RomeThemeForm::rform_version());
         wp_enqueue_script('rform-gdpr-js', \RomeThemeForm::widget_url() . 'assets/js/rform-gdpr.js', ['jquery'], \RomeThemeForm::rform_version());
+        wp_enqueue_script('rform-recaptcha-script', \RomeThemeForm::widget_url() . 'assets/js/recaptcha.js', ['jquery'], \RomeThemeForm::rform_version());
         wp_enqueue_script('rform-script', \RomeThemeForm::widget_url() . 'assets/js/rform.js', ['jquery'], \RomeThemeForm::rform_version());
+        wp_enqueue_script('google-recaptcha', $recaptcha_script_url , [], \RomeThemeForm::rform_version(), true);
         wp_localize_script('rform-script', 'romethemeform_ajax_url', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => $rform_nonce

@@ -4,7 +4,7 @@ Tags: form ,elementor form, custom form , contact form builder
 Requires at least: 6.8
 Tested up to: 6.9.1
 Requires PHP: 8.2
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -94,8 +94,13 @@ We’d love to hear your thoughts! Leave us a review on WordPress.org and help o
 Login your WordPress dashboard,  From the left menu click the RTMForm icon.
 
 == Changelog ==
+Version 1.2.6 - May 05, 2026
+* Bug Fixed send mail submit form
+* Bug Fixed required indicator color
+* New Widget : reCAPTCHA Widget
+
 Version 1.2.5 - February 10, 2026
-* Update compatibility with RTMKit addons for elementor V 2.0
+* Update compatibility width RTMKit addons for elementor V 2.0
 
 Version 1.2.4 - September 25, 2025
 * Added control icon color in the "Date" widget.

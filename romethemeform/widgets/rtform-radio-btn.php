@@ -299,6 +299,14 @@ class Rform_Radio_Widget extends \Elementor\Widget_Base
             ]
         ]);
 
+        $this->add_control('required_color', [
+            'label' => esc_html__('Required Indicator Color'),
+            'type' => \Elementor\Controls_Manager::COLOR,
+            'selectors' => [
+                '{{WRAPPER}} .rform-label-input span' => 'color:{{VALUE}}'
+            ],
+        ]);
+
         $this->end_controls_section();
 
         $this->start_controls_section('settings_section', [
@@ -520,7 +528,7 @@ class Rform_Radio_Widget extends \Elementor\Widget_Base
 
         $this->end_controls_section();
 
-                $this->start_controls_section('warning_style', [
+        $this->start_controls_section('warning_style', [
             'label' => esc_html__('Warning', 'romethemeform'),
             'tab' => \Elementor\Controls_Manager::TAB_STYLE,
         ]);
@@ -625,7 +633,8 @@ class Rform_Radio_Widget extends \Elementor\Widget_Base
                     <?php foreach ($settings['radio_options'] as $option) : ?>
                         <label class="rform-radiobtn-container">
                             <div>
-                                <input class="rform-input" type="radio" value="<?php echo esc_attr($option['option_value']) ?>" name="<?php echo esc_attr($settings['name_input']) ?>" <?php echo esc_attr($option['option_status']);                                                                                                                             echo ($option['option_default'] === 'yes') ? esc_attr('checked') : '' ?> <?php echo ('yes' === $settings['required_input']) ? esc_attr('required') : '' ?>>
+                                <input class="rform-input" type="radio" value="<?php echo esc_attr($option['option_value']) ?>" name="<?php echo esc_attr($settings['name_input']) ?>" <?php echo esc_attr($option['option_status']);
+                                                                                                                                                                                        echo ($option['option_default'] === 'yes') ? esc_attr('checked') : '' ?> <?php echo ('yes' === $settings['required_input']) ? esc_attr('required') : '' ?>>
                                 <span class="rform-radio-checkmark"></span>
                             </div>
                             <span class="rform-radio-label"><?php echo esc_html($option['option_text']) ?></span>
