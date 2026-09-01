@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       RTMForm Builder
  * Description:       The Advanced Form Builder for Elementor 
- * Version:           1.2.6
+ * Version:           1.2.7
  * Author:            Rometheme
  * Author URI: 	  	  https://rometheme.net/
  * License : 		  GPLv3
@@ -309,6 +309,9 @@ class RomeThemeForm
 
     public function rform_notice()
     {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
         $rform_hasbeen_rated = get_user_meta(get_current_user_id(), 'rform-hasbeen-rated');
         if (empty($rform_hasbeen_rated)) {
             add_action('admin_notices',  [\RomethemeFormPlugin\Plugin::class, 'rform_notice_raw']);
@@ -317,6 +320,9 @@ class RomeThemeForm
 
     function remove_notice()
     {
+        if (!current_user_can('manage_options')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
+        }
         $userid = get_current_user_id();
         add_user_meta($userid, 'rform-hasbeen-rated', 'true');
     }

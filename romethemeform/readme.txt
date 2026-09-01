@@ -4,7 +4,7 @@ Tags: form ,elementor form, custom form , contact form builder
 Requires at least: 6.8
 Tested up to: 6.9.1
 Requires PHP: 8.2
-Stable tag: 1.2.6
+Stable tag: 1.2.7
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -93,7 +93,14 @@ We’d love to hear your thoughts! Leave us a review on WordPress.org and help o
 
 Login your WordPress dashboard,  From the left menu click the RTMForm icon.
 
+= How can I report security bugs? =
+
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.]( https://patchstack.com/database/vdp/9e5fbea0-7d92-4f54-9248-81fe7b68a10b )
+
 == Changelog ==
+Version 1.2.7 - September 1, 2026
+* Security Update
+
 Version 1.2.6 - May 05, 2026
 * Bug Fixed send mail submit form
 * Bug Fixed required indicator color

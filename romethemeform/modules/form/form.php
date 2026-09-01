@@ -41,6 +41,13 @@ class Form
             ];
             return $menus;
         });
+        add_filter('rtmkit_themebuilder', function ($themebuilder) {
+            $themebuilder['form'] = [
+                'name' => 'form',
+                'title' => 'Form'
+            ];
+            return $themebuilder;
+        });
     }
 
     function add_form_menu()
@@ -425,11 +432,25 @@ class Form
 
         if ($confirm) {
             $data_confirm = json_decode($confirm);
-            $subject = $data_confirm->email_subject;
-            $from = $data_confirm->email_from;
-            $thanks_msg = rawurldecode($data_confirm->thankyou_msg);
-            $reply_to = $data_confirm->email_replyto;
-            $to = sanitize_email($_POST['email']);
+
+            $subject    = sanitize_text_field($data_confirm->email_subject ?? '');
+            $from       = sanitize_email($data_confirm->email_from ?? '');
+            $reply_to   = sanitize_email($data_confirm->email_replyto ?? '');
+            $thanks_msg = rawurldecode($data_confirm->thankyou_msg ?? '');
+
+            $to = sanitize_email(wp_unslash($_POST['email'] ?? ''));
+
+            if (!is_email($to)) {
+                wp_die('Invalid email address.');
+            }
+
+            if (!is_email($from)) {
+                wp_die('Invalid sender email address.');
+            }
+
+            if (!is_email($reply_to)) {
+                wp_die('Invalid reply-to email address.');
+            }
             $headers = array(
                 'MIME-Version: 1.0',
                 'Content-Type: text/html; charset=UTF-8',
@@ -538,7 +559,19 @@ class Form
 
         $form_id = sanitize_text_field($_GET['form_id']);
         $form_name = sanitize_text_field($_GET['form_name']);
-        $file = fopen($form_name . '-' . $form_id .  '.csv', 'w');
+        if (!preg_match('/^[0-9]+$/', $form_id)) {
+            wp_die('Invalid form ID.');
+        }
+
+        if (!preg_match('/^[a-zA-Z0-9_-]+$/', $form_name)) {
+            wp_die('Invalid form name.');
+        }
+
+        $filename = sprintf(
+            '%s-%s.csv',
+            $form_name,
+            $form_id
+        );
 
         $args = [
             'post_type' => 'romethemeform_entry',
@@ -601,6 +634,11 @@ class Form
     {
         check_ajax_referer('rform_form_ajax_nonce', 'nonce');
 
+        if(!current_user_can('manage_options')) {
+            wp_send_json_error('Access Denied');
+            wp_die();
+        }
+
         $site_key = sanitize_text_field($_POST['site_key']);
         $secret_key = sanitize_text_field($_POST['secret_key']);
         $version = sanitize_text_field($_POST['version']);
@@ -616,12 +654,16 @@ class Form
     {
         check_ajax_referer('rform_form_ajax_nonce', 'nonce');
 
+        if(!current_user_can('manage_options')) {
+            wp_send_json_error('Access Denied');
+            wp_die();
+        }
+
         $version = sanitize_text_field($_POST['version']);
         $site_key = get_option('rform_recaptcha_site_key_' . $version, '');
         $secret_key = get_option('rform_recaptcha_secret_key_' . $version, '');
         wp_send_json_success([
             'site_key' => $site_key,
-            'secret_key' => $secret_key,
         ]);
     }
 
