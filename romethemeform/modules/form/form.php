@@ -48,6 +48,8 @@ class Form
             ];
             return $themebuilder;
         });
+
+        add_action('elementor/editor/before_enqueue_scripts', [$this, 'rtmformpro_js']);
     }
 
     function add_form_menu()
@@ -69,6 +71,37 @@ class Form
         } else {
             require_once $this->dir . 'views/entries-view.php';
         }
+    }
+
+    private function get_rtmform_pro_widget()
+    {
+        return [
+            "login" => [
+                "name" => "Login",
+                "icon" =>  "eicon-lock-user",
+                "status" => true
+            ],
+            "register" => [
+                "name" => "Register",
+                "icon" => "rtmicon rtmicon-person-add",
+                "status" => true
+            ],
+            "multistep" => [
+                "name" => "Multi Step Form",
+                "icon" => "eicon-form-horizontal",
+                "status" => true
+            ],
+            "nextstep" => [
+                "name" => "Next Step",
+                "icon" => "rtmicon rtmicon-arrow-right",
+                "status" => true
+            ],
+            "previousstep" => [
+                "name" => "Previous Step",
+                "icon" => "rtmicon rtmicon-arrow-left",
+                "status" => true
+            ]
+        ];
     }
 
     function enqueue_romethemeform_scripts()
@@ -98,6 +131,22 @@ class Form
                 ));
                 wp_localize_script('rform-js', 'romethemeform_url', ['form_url' =>  admin_url() . 'admin.php?page=themebuilder&themebuilder=form']);
             }
+        }
+    }
+
+    public function rtmformpro_js()
+    {
+        if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {
+            wp_enqueue_script('rtmformprojs',  $this->url . 'assets/js/rtmformpro.js', ['jquery', 'wp-i18n'], RTM_KIT_VERSION, true);
+            wp_localize_script('rtmformprojs', 'rtmformpro', [
+                'is_pro' =>  \RTMKit\Core\Plugin::instance()->pro_is_active() && is_plugin_active('rtm-form-pro/rtm-form-pro.php') ? 'true' : 'false',
+                'widgets' => $this->get_rtmform_pro_widget(),
+                // URL-nya dibentuk di PHP karena memuat kode situs dan versi plugin.
+                'upgrade_url' => \RTMKit\Modules\Telemetry\UpgradeLink::urls([
+                    'category' => ['editor.pro_category'],
+                    'dialog'   => ['editor.pro_widget_dialog'],
+                ])
+            ]);
         }
     }
 
@@ -457,10 +506,22 @@ class Form
                 'From: ' . $from,
                 'Reply-To: ' . $reply_to,
             );
+
+            $mail_error_confirm = null;
+
+            $on_mail_confirm_failed = function (\WP_Error $error) use (&$mail_error_confirm) {
+                $mail_error_confirm = $error->get_error_message();
+            };
+
+            add_action('wp_mail_failed', $on_mail_confirm_failed);
+
             $send = wp_mail($to, $subject, $thanks_msg, $headers);
+
+
+            remove_action('wp_mail_failed', $on_mail_confirm_failed);
             if (!$send) {
                 $error_message = error_get_last()['message'];
-                wp_send_json_error(['error' => $error_message]);
+                wp_send_json_error(['error' => $mail_error_confirm]);
             }
         }
 
@@ -535,10 +596,20 @@ class Form
                 'From : ' . $notif_from
             );
 
+            $mail_error_notif = null;
+
+            $on_mail_notif_failed = function (\WP_Error $error) use (&$mail_error_notif) {
+                $mail_error_notif = $error->get_error_message();
+            };
+
+            add_action('wp_mail_failed', $on_mail_notif_failed);
+
             $send_mail = wp_mail($notif_email, $notif_subject, $msg, $mail_headers);
+
+            remove_action('wp_mail_failed', $on_mail_notif_failed);
             if (!$send_mail) {
                 $error_message = error_get_last()['message'];
-                wp_send_json_error(['error' => $error_message, 'data' => $notif_email]);
+                wp_send_json_error(['error' => $error_message, 'data' => $mail_error_notif]);
             }
         }
 
@@ -634,7 +705,7 @@ class Form
     {
         check_ajax_referer('rform_form_ajax_nonce', 'nonce');
 
-        if(!current_user_can('manage_options')) {
+        if (!current_user_can('manage_options')) {
             wp_send_json_error('Access Denied');
             wp_die();
         }
@@ -654,7 +725,7 @@ class Form
     {
         check_ajax_referer('rform_form_ajax_nonce', 'nonce');
 
-        if(!current_user_can('manage_options')) {
+        if (!current_user_can('manage_options')) {
             wp_send_json_error('Access Denied');
             wp_die();
         }

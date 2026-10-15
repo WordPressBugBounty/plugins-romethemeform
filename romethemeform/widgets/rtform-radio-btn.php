@@ -630,10 +630,12 @@ class Rform_Radio_Widget extends \Elementor\Widget_Base
                     </label>
                 <?php endif; ?>
                 <div class="rform-radio-button">
-                    <?php foreach ($settings['radio_options'] as $option) : ?>
+                    <?php foreach ($settings['radio_options'] as $option) :
+                        $optionStatus = $option['option_status'] === 'disabled' ? 'disabled' : '';
+                    ?>
                         <label class="rform-radiobtn-container">
                             <div>
-                                <input class="rform-input" type="radio" value="<?php echo esc_attr($option['option_value']) ?>" name="<?php echo esc_attr($settings['name_input']) ?>" <?php echo esc_attr($option['option_status']);
+                                <input class="rform-input" type="radio" value="<?php echo esc_attr($option['option_value']) ?>" name="<?php echo esc_attr($settings['name_input']) ?>" <?php echo esc_attr($optionStatus);
                                                                                                                                                                                         echo ($option['option_default'] === 'yes') ? esc_attr('checked') : '' ?> <?php echo ('yes' === $settings['required_input']) ? esc_attr('required') : '' ?>>
                                 <span class="rform-radio-checkmark"></span>
                             </div>

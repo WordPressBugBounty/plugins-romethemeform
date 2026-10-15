@@ -714,13 +714,13 @@ class RTForm_select extends \Elementor\Widget_Base
                     <div class="rform-options-container">
                         <ul>
                             <?php foreach ($settings['options'] as $option) : ?>
-                                <li class="rform-option" data-value="<?php echo $option['option_value']; ?>" <?php echo esc_attr($option['option_status']) ?>><?php echo $option['option_text'] ?></li>
+                                <li class="rform-option" data-value="<?php echo esc_attr($option['option_value']); ?>" <?php echo esc_attr($option['option_status']) ?>><?php echo esc_html($option['option_text']) ?></li>
                             <?php endforeach; ?>
                         </ul>
                     </div>
                 </div>
             </div>
-            <span role="alert" class="rform-error" id="rform-select-err-<?php echo $this->get_id_int(); ?>"><?php echo esc_html__($settings['warning_message'], 'romethemeform') ?></span>
+            <span role="alert" class="rform-error" id="rform-select-err-<?php echo esc_attr($this->get_id_int()); ?>"><?php echo esc_html__($settings['warning_message'], 'romethemeform') ?></span>
             <div class="rform-help-text">
                 <span><?php echo esc_html__($settings['help_text'], 'romethemeform') ?></span>
             </div>

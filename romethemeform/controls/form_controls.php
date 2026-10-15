@@ -21,11 +21,11 @@ class RFormControls extends \Elementor\Base_Data_Control
         wp_enqueue_style('control-style');
 
         // Scripts
-        wp_register_script('control-script', \RomeThemeForm::controls_url() . 'assets/js/form_modal.js');
-        wp_enqueue_script('control-script');
+        // wp_register_script('control-script', \RomeThemeForm::controls_url() . 'assets/js/form_modal.js');
+        // wp_enqueue_script('control-script');
         wp_register_script('rformcontrol-script', \RomeThemeForm::controls_url() . 'assets/js/form_picker.js');
         wp_enqueue_script('rformcontrol-script');
-        wp_localize_script('control-script', 'adminData', array(
+        wp_localize_script('rformcontrol-script', 'adminData', array(
             'adminUrl' => esc_url(admin_url()),
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => $form_nonce

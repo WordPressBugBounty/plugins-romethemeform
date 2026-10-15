@@ -623,6 +623,7 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
         $settings = $this->get_settings_for_display();
         $label_text = $settings['label_text'];
         $checkbox_options = $settings['checkbox_options'];
+
 ?>
         <div class="rform-container">
             <div class="rform-control <?php echo esc_attr($settings['label_position']) ?>">
@@ -636,10 +637,12 @@ class Rform_Checkbox_Widget extends \Elementor\Widget_Base
                     <?php echo ('yes' === $settings['required_input']) ? esc_attr('required') : '' ?>
                     <?php echo ($settings['min_length']) ? 'data-min="' . esc_attr($settings['min_length']) . '"' : '' ?>
                     <?php echo ($settings['max_length']) ? 'data-max="' . esc_attr($settings['max_length']) . '"' : '' ?>>
-                    <?php foreach ($settings['checkbox_options'] as $option) : ?>
+                    <?php foreach ($settings['checkbox_options'] as $option) :
+                        $optionStatus = $option['option_status'] === 'disabled' ? 'disabled' : '';
+                    ?>
                         <label class="rform-checkboxbtn-container">
                             <div>
-                                <input class="rform-input" type="checkbox" value="<?php echo esc_attr($option['option_value']) ?>" name="<?php echo esc_attr($settings['name_input']) ?>[]" <?php echo esc_attr($option['option_status']);
+                                <input class="rform-input" type="checkbox" value="<?php echo esc_attr($option['option_value']) ?>" name="<?php echo esc_attr($settings['name_input']) ?>[]" <?php echo esc_attr($optionStatus);
                                                                                                                                                                                             echo ($option['option_default'] === 'yes') ? esc_attr('checked') : '' ?>>
                                 <span class="rform-checkbox-checkmark"></span>
                             </div>

@@ -3,6 +3,7 @@ jQuery(document).ready(($) => {
     event.preventDefault();
     var form = $(this).closest("form");
     var form_id = form.attr("data-form");
+
     if (form.hasClass("rform-dsb")) {
       var m = form.find(".require-login");
       m.css("display", "block");

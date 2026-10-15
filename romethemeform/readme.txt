@@ -1,81 +1,127 @@
-=== RTMForm Builder ===
+=== RTMForm – Contact Form, Multi-Step Forms & Form Templates for Elementor ===
 Contributors: dickoandrean
 Tags: form ,elementor form, custom form , contact form builder
 Requires at least: 6.8
-Tested up to: 6.9.1
+Tested up to: 7.1.0
 Requires PHP: 8.2
-Stable tag: 1.2.7
+Stable tag: 1.2.8
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 RTMForm For Elementor Plugin is an Form Builder for Elementor, and Widget Ready to use.
 
 == Description ==
-RTMForm is a powerful yet beginner-friendly contact form builder designed exclusively for Elementor. With its intuitive drag-and-drop interface, you can create stylish, interactive, and conversion-focused forms in just minutes—no coding required.
-Whether you’re a beginner or an advanced user, RTMForm makes form building easy, fast, and secure. Collect information, engage visitors, and boost conversions with beautifully designed forms that fit seamlessly into your website.
-Packed with flexible customization options, real-time editing, and performance-optimized features, RTMForm gives you the freedom to design professional forms effortlessly—making it the ultimate all-in-one solution for WordPress websites.
 
+**Build Custom Forms with Elementor — No Coding Required**
 
-🚀 Why Choose RTMForm?
+RTMForm is a beginner-friendly form builder designed exclusively for Elementor. Create custom contact forms, collect user information, manage submissions, and design professional forms that match your website—all with an intuitive visual editing experience.
 
-✅ Input Fields: Create Custom forms for all your needs with as many fields as you like.
-✅ Admin Notification Email: Notify admin after user submission is completed or any type of customer data is processed.
-✅ User Confirmation Email: A confirmation email can be sent when a user registers or enters their data to confirm their registration.
-✅ Saved Entries in the Admin Panel: Save all the data that users give to fill up the form and display it in the admin panel.
-✅ Export Entries as CSV: Export multiple data from your RTMForm that the user enters in a single CSV file and downloads in a spreadsheet.
-✅ Required Login to Submit the Form: This feature of the secure contact form, will show all the required fields to fill up the form by giving a simple red star icon and providing an error message if needed.
+From simple contact forms to customer inquiries and feedback forms, RTMForm gives you the essential tools to create, customize, and manage forms directly within your WordPress website.
 
-<iframe width="720" height="400" src="https://www.youtube.com/embed/TReUYR1VKsQ?si=kncDQxWtb29xA6va&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-### Useful Links
-[Docs](https://support.rometheme.net/) | [Video Tutorials](https://www.youtube.com/playlist?list=PLiDcdRZHQZ66vm5sZ6maMY-CZiZuweCRo) | [Join Community](https://www.facebook.com/groups/rometheme) | [What's New?](https://rometheme.net/roadmap/) | [Upgrade To Pro](https://rometheme.net/pricing/) | [Share Review](https://wordpress.org/support/plugin/rometheme-for-elementor/reviews/#new-post)
+With flexible form fields, email notifications, entry management, and CSV export, you can streamline form submissions and manage collected information more efficiently.
 
+Need more advanced functionality? Upgrade to **RTMForm Pro** to unlock Multi-Step Forms, Login and Register widgets, and SMTP configuration support.
 
-##🌟 12+ Free Elementor widgets fields to build your form:
+## 🚀 Why Choose RTMForm?
 
-Note: [Elementor](https://wordpress.org/plugins/elementor/) & [RTMKit](https://wordpress.org/plugins/rometheme-for-elementor/) is required for this plugin.
+### 🧩 Custom Form Builder
+Create custom forms for your website using flexible input fields. Customize labels, placeholders, required fields, and available styling options to match your needs.
 
-Style contact, feedback, and newsletter forms directly within Elementor. With full control over every form field—including text, radio buttons, checkboxes, and GDPR consent—you can build branded, responsive forms without writing a line of CSS. Optimized for both usability and conversions.
+### 📩 Admin Email Notifications
+Receive email notifications when visitors submit a form, helping you stay informed about new inquiries and submissions.
 
-1. Checkbox – Multi-option fields with custom styles and alignment.
+### ✉️ User Confirmation Emails
+Send confirmation emails to users after form submission to acknowledge their inquiries or provide relevant follow-up information.
 
-2. Date – Calendar input for selecting dates.
+### 📋 Form Entry Management
+Save submitted form entries in your WordPress admin panel so you can review and manage collected information.
 
-3. Email – Collect user email addresses with customizable fields.
+### 📊 Export Entries to CSV
+Export form submissions to CSV files for spreadsheet analysis, reporting, and record keeping.
 
-4. Number – Number input fields with validation.
+### 🎨 Flexible Form Styling
+Customize form fields, buttons, and layouts directly within Elementor to create forms that complement your website's design.
 
-5. Radio Button – Single-option selections with styled buttons.
+### 📱 Responsive Form Design
+Create forms designed to adapt to different screen sizes for a consistent experience across desktop, tablet, and mobile devices.
 
-6. Select – Dropdown input with full styling control.
+## 🌟 12 Essential Form Fields for Elementor
 
-7. Submit Button – Customizable call-to-action with hover effects and icons.
+RTMForm includes 12 essential form fields to help you build contact forms, feedback forms, inquiry forms, and other custom forms.
 
-8. Telephone – Phone number field with country code and masking.
+Customize field appearances and form layouts directly within Elementor without writing custom CSS.
 
-9. Text – Standard input fields for short content.
+1. **Checkbox** – Allow users to select multiple options.
+2. **Date** – Let users select a date using a calendar input.
+3. **Email** – Collect email addresses with field validation.
+4. **Number** – Accept numeric input.
+5. **Radio Button** – Let users select one option from a group.
+6. **Select** – Display selectable options in a dropdown.
+7. **Submit Button** – Customize your form submission button's appearance and available visual options.
+8. **Telephone** – Collect phone numbers using supported formatting options.
+9. **Text** – Collect names and other short text responses.
+10. **Text Area** – Allow users to enter longer messages and comments.
+11. **Time** – Let users select a time.
+12. **GDPR Consent** – Add a consent checkbox for privacy notices or applicable terms.
+13. **reCAPTCHA** – Protect your forms from spam and automated abuse by verifying that the user is human.
 
-10. Text Area – Long-form input for messages or feedback.
+## ⚡ Unlock More with RTMForm Pro
 
-11. Time – Input field for selecting times.
+Take your form-building experience further with advanced widgets and functionality designed for more sophisticated website workflows.
 
-12. GDPR Consent – Required checkbox for privacy or terms compliance.
+### 🔐 Login Widget
+Create login forms that integrate with your Elementor page designs for a consistent website experience.
 
+### 📝 Register Widget
+Build user registration forms for websites that require account creation workflows.
 
-We’re constantly adding new features and improvements with every update. Take your design to the next level by upgrading to the Pro version.
+### 🪜 Multi-Step Forms
+Divide longer forms into multiple steps to create a more organized form-filling experience. Ideal for detailed inquiries, registration workflows, onboarding, and other multi-stage forms.
 
+### 📬 SMTP Configuration Support
+Configure SMTP settings to connect your email delivery setup and manage outgoing form notification emails. Email deliverability depends on your mail server, provider, and configuration.
+
+**Ready to build more advanced forms?**
+
+Explore RTMForm Pro for additional widgets and capabilities.
+
+[Upgrade to RTMForm Pro](https://store.rometheme.net/pricing)
+
+## 🔌 Required Plugins
+
+RTMForm requires the following plugins to work:
+
+- [Elementor](https://wordpress.org/plugins/elementor/) – Build and customize your forms visually.
+- [RTMKit](https://wordpress.org/plugins/rometheme-for-elementor/) – The required Rometheme plugin dependency.
+
+Install and activate both plugins before using RTMForm.
+
+## 📚 Useful Links
+
+- [Documentation](https://support.rometheme.net/)
+- [Video Tutorials](https://www.youtube.com/playlist?list=PLiDcdRZHQZ66vm5sZ6maMY-CZiZuweCRo)
+- [Join the Rometheme Community](https://www.facebook.com/groups/rometheme)
+- [What's New?](https://rometheme.net/roadmap/)
+- [Upgrade to Pro](https://store.rometheme.net/pricing)
+- [Share Your Review](https://wordpress.org/support/plugin/rometheme-for-elementor/reviews/#new-post)
 
 ## 🧭 Need Help Getting Started?
-Check out our Getting Started Guide and Documentation for step-by-step tutorials to help you make the most of RTMForm.
 
-## 🙋 Have a Question?
-Visit our Support Forum on WordPress.org. Our team is ready to assist you with any issues or questions you might have.
+Visit our [documentation](https://support.rometheme.net/) for setup instructions, feature guides, and tutorials to help you get the most out of RTMForm.
 
-## 🎥 Prefer Visual Learning?
-Watch our video tutorials and walkthroughs on YouTube and learn how to build stunning websites with RTMForm.
+## 🙋 Need Support?
 
-## ⭐ Found RTMForm Helpful?
-We’d love to hear your thoughts! Leave us a review on WordPress.org and help others discover RTMForm.
+Visit the RTMForm support forum on WordPress.org to ask questions, report issues, and get assistance from our team.
 
+## 🎥 Learn with Video Tutorials
+
+Prefer learning visually? Explore our [YouTube video tutorials](https://www.youtube.com/playlist?list=PLiDcdRZHQZ66vm5sZ6maMY-CZiZuweCRo) for walkthroughs and practical guidance on building forms with RTMForm and Elementor.
+
+## ⭐ Enjoying RTMForm?
+
+If RTMForm helps you build better websites, please consider leaving a [review on WordPress.org](https://wordpress.org/support/plugin/rometheme-for-elementor/reviews/#new-post). Your feedback helps us improve the plugin and helps other Elementor users discover RTMForm.
+
+Thank you for choosing RTMForm by Rometheme!
 
 == Installation ==
 1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
@@ -98,8 +144,12 @@ Login your WordPress dashboard,  From the left menu click the RTMForm icon.
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.]( https://patchstack.com/database/vdp/9e5fbea0-7d92-4f54-9248-81fe7b68a10b )
 
 == Changelog ==
-Version 1.2.7 - September 1, 2026
+
+Version 1.2.8 - October 15, 2026
 * Security Update
+
+Version 1.2.7 - September 1, 2026
+* Security Update 
 
 Version 1.2.6 - May 05, 2026
 * Bug Fixed send mail submit form
@@ -176,3 +226,4 @@ Version : 1.0.1 - February 22, 2023
 
 Version : 1.0.0 - February 18, 2023
 * Initial version of RTMForm for Elementor Plugin
+

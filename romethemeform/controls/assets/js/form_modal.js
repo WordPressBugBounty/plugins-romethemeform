@@ -7,6 +7,7 @@ jQuery(document).ready(($) => {
 
     $(document).on('click', '.rform-radio-btn', function () {
         var selectedContent = $(this).data('content');
+        // console.log(selectedContent);
         $(this).closest('.rform-modal-tabs').find('.rform-tab-content').not(selectedContent).hide();
         $(selectedContent).show();
     });

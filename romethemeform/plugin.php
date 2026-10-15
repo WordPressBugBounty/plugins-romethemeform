@@ -84,7 +84,7 @@ class Plugin
         wp_enqueue_script('rform-gdpr-js', \RomeThemeForm::widget_url() . 'assets/js/rform-gdpr.js', ['jquery'], \RomeThemeForm::rform_version());
         wp_enqueue_script('rform-recaptcha-script', \RomeThemeForm::widget_url() . 'assets/js/recaptcha.js', ['jquery'], \RomeThemeForm::rform_version());
         wp_enqueue_script('rform-script', \RomeThemeForm::widget_url() . 'assets/js/rform.js', ['jquery'], \RomeThemeForm::rform_version());
-        wp_enqueue_script('google-recaptcha', $recaptcha_script_url , [], \RomeThemeForm::rform_version(), true);
+        wp_enqueue_script('google-recaptcha', $recaptcha_script_url, [], \RomeThemeForm::rform_version(), true);
         wp_localize_script('rform-script', 'romethemeform_ajax_url', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => $rform_nonce
@@ -101,6 +101,12 @@ class Plugin
         $categories['romethemeform_form_fields'] = [
             'title' => 'RTMForm',
         ];
+
+        $categories['rtm-form-pro'] =
+            [
+                'title' => esc_html__('RTM Form Pro', 'rtm-form-pro'),
+                'icon' => 'eicon-ehp-forms',
+            ];
 
         $old_categories = $elements_manager->get_categories();
         $categories = array_merge($categories, $old_categories);
